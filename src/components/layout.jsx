@@ -106,7 +106,7 @@ export function Hero() {
       <div className="carousel-inner">
         <div className="carousel-item active" data-bs-interval="10000">
           <img
-            src="../assets/galaxy-img.jpg"
+            src="../assets/carousel-slide-1.jpg"
             className="d-block w-100"
             alt="Default Image"
           />

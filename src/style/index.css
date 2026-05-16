@@ -71,6 +71,7 @@ body::-webkit-scrollbar-track {
   flex-direction: column;
   justify-content: center;
   color: #ff907f;
+  font-weight: bold;
   list-style: none;
   font-size: 15px;
   padding: 0px 20px;
