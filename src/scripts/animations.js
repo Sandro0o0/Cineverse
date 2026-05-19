@@ -33,3 +33,19 @@ export function bellAnimation() {
     e.target.classList.remove("animate-bell");
   });
 }
+
+export function sliderAnimation() {
+  const right = document.querySelector(`.arrow-right`);
+  const left = document.querySelector(`.arrow-left`);
+  let counter = 0;
+  let maxSlide = document.getElementsByClassName(`hero-item`).length;
+
+  right.addEventListener("click", () => {
+    if (counter > maxSlide) return;
+    counter++;
+  });
+  left.addEventListener("click", () => {
+    if (counter < 1) return;
+    counter--;
+  });
+}

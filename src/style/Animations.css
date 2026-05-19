@@ -93,3 +93,6 @@
     transform: rotate(0deg);
   }
 }
+.show {
+  display: block !important;
+}

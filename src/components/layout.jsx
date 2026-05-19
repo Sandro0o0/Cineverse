@@ -1,4 +1,12 @@
+import { use, useEffect, useState } from "react";
 import { SearchBar } from "./search";
+import { movieData, TMDB_IMAGE_BASE_URL } from "../scripts/api";
+import { HeroRandomMovies } from "../scripts/api/Movie.js";
+import { DisplayText } from "./texts.jsx";
+import { WatchBtn, GenreBtn } from "./buttons.jsx";
+
+const randomMovies = await HeroRandomMovies();
+console.log(randomMovies);
 
 export function Header() {
   return (
@@ -79,83 +87,33 @@ export function Header() {
 }
 
 export function Hero() {
+  let [movieIndex, setMovieIndex] = useState(0);
+
   return (
-    <div id="carouselExampleDark" className="carousel carousel-dark slide">
-      <div className="carousel-indicators">
-        <button
-          type="button"
-          data-bs-target="#carouselExampleDark"
-          data-bs-slide-to="0"
-          className="active"
-          aria-current="true"
-          aria-label="Slide 1"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleDark"
-          data-bs-slide-to="1"
-          aria-label="Slide 2"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleDark"
-          data-bs-slide-to="2"
-          aria-label="Slide 3"
-        ></button>
+    <>
+      <div className="hero">
+        <div className="arrow arrow-left">&#8592;</div>
+        <div id="hero-content" className="hero-content">
+          <div className="hero-item">
+            <img
+              src={`${TMDB_IMAGE_BASE_URL}${randomMovies[0]?.backdrop_path}`}
+              alt="Not Found!"
+            />
+            <div className="item-content">
+              <h1>{randomMovies[0]?.original_title}</h1>
+              <div className="genres">
+                <GenreBtn genreId={randomMovies[0]?.genre_ids}></GenreBtn>
+              </div>
+
+              <WatchBtn></WatchBtn>
+            </div>
+          </div>
+        </div>
+
+        <div className="arrow arrow-right">&#8594;</div>
+        <div className="hero-cover"></div>
       </div>
-      <div className="carousel-inner">
-        <div className="carousel-item active" data-bs-interval="10000">
-          <img
-            src="../assets/carousel-slide-1.jpg"
-            className="d-block w-100"
-            alt="Default Image"
-          />
-          <div className="carousel-caption d-none d-md-block">
-            <h5>First slide label</h5>
-            <p>Some representative placeholder content for the first slide.</p>
-          </div>
-        </div>
-        <div className="carousel-item" data-bs-interval="2000">
-          <img
-            src="../assets/carousel-slide-2.jpg"
-            className="d-block w-100"
-            alt="Slide 2"
-          />
-          <div className="carousel-caption d-none d-md-block">
-            <h5>Second slide label</h5>
-            <p>Some representative placeholder content for the second slide.</p>
-          </div>
-        </div>
-        <div className="carousel-item">
-          <img
-            src="../assets/carousel-slide-3.jpg"
-            className="d-block w-100"
-            alt="Slide 3"
-          />
-          <div className="carousel-caption d-none d-md-block">
-            <h5>Third slide label</h5>
-            <p>Some representative placeholder content for the third slide.</p>
-          </div>
-        </div>
-      </div>
-      <button
-        className="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExampleDark"
-        data-bs-slide="prev"
-      >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button
-        className="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExampleDark"
-        data-bs-slide="next"
-      >
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Next</span>
-      </button>
-    </div>
+      <DisplayText text="Welcome To Cineverse"></DisplayText>
+    </>
   );
 }

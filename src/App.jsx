@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { DisplayUserName } from "./components/messages.jsx"; // curly braces for named export
-import { PrimaryButton } from "./components/buttons.jsx";
 import { Header, Hero } from "./components/layout.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; // <-- add this line
