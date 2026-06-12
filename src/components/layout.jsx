@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchBar } from "./search";
 import { movieData, TMDB_IMAGE_BASE_URL } from "../scripts/api";
 import { HeroRandomMovies } from "../scripts/api/Movie.js";
@@ -27,7 +27,7 @@ export function Header() {
             Series
             <div className="underline"></div>
           </li>
-          <li className="nav-item dropdown">
+          <li className="nav-item dropdown ">
             <a
               className="nav-link dropdown-toggle"
               href="#"
@@ -87,33 +87,181 @@ export function Header() {
 }
 
 export function Hero() {
-  let [movieIndex, setMovieIndex] = useState(0);
+  const directionValues = {
+    left: -1,
+    right: 1,
+  };
+
+  const [count, setCount] = useState(0);
+
+  const handleSlide = (direction) => {
+    setCount((prevCount) => {
+      let newCount = prevCount;
+      const previewElements = Array.from(
+        document.querySelectorAll(".preview-img"),
+      );
+
+      if (direction === "right") {
+        if (prevCount >= randomMovies.length - 1) return prevCount; // prevent going too far
+        newCount += 1;
+        sliding("right", previewElements, newCount, count);
+      } else if (direction === "left") {
+        if (prevCount <= 0) return prevCount;
+        newCount -= 1;
+        sliding("left", previewElements, newCount, count);
+      }
+
+      return newCount;
+    });
+  };
+
+  useEffect(() => {
+    const bgImg = document.getElementById("hero-bc-img");
+    if (bgImg && randomMovies[count]) {
+      bgImg.src = `${TMDB_IMAGE_BASE_URL}${randomMovies[count].backdrop_path}`;
+    }
+  }, [count]);
+
+  useEffect(() => {
+    const previewElements = Array.from(
+      document.querySelectorAll(".preview-img"),
+    );
+    const elementSize = previewElements[0]?.getBoundingClientRect();
+
+    if (!elementSize) return;
+
+    let scaleCoefficient = 0.1;
+    let baseGap = 70;
+    const baseHeightCoefficient = 80;
+
+    for (let i = 0; i < previewElements.length; i++) {
+      const element = document.querySelector(`.preview-${i}`);
+      const parent = element.parentElement;
+
+      parent.style.setProperty(
+        "height",
+        `${baseHeightCoefficient - 10 * i}%`,
+        "important",
+      );
+      parent.style.transform = `translateX(-${baseGap * i}px)`;
+      parent.style.zIndex = `${previewElements.length - i}`;
+
+      baseGap += 13;
+      scaleCoefficient += 0.1;
+    }
+  }, []);
 
   return (
     <>
       <div className="hero">
-        <div className="arrow arrow-left">&#8592;</div>
+        <div className="arrow arrow-left" onClick={() => handleSlide("left")}>
+          <i
+            onClick={(e) => e.stopPropagation()}
+            className="fa-solid fa-left-long"
+          ></i>
+        </div>
         <div id="hero-content" className="hero-content">
           <div className="hero-item">
             <img
+              id="hero-bc-img"
               src={`${TMDB_IMAGE_BASE_URL}${randomMovies[0]?.backdrop_path}`}
               alt="Not Found!"
             />
             <div className="item-content">
-              <h1>{randomMovies[0]?.original_title}</h1>
-              <div className="genres">
-                <GenreBtn genreId={randomMovies[0]?.genre_ids}></GenreBtn>
-              </div>
+              <div className="content">
+                <h1>{randomMovies[count]?.title}</h1>
 
-              <WatchBtn></WatchBtn>
+                <p>{randomMovies[count]?.overview.slice(0, 300)}..</p>
+                <div className="genres">
+                  <GenreBtn genreId={randomMovies[count]?.genre_ids}></GenreBtn>
+                </div>
+                <WatchBtn></WatchBtn>
+              </div>
+              <div className="preview-banners">
+                <div className="preview-overlay">
+                  <div className="overlay-1"></div>
+                  <div className="overlay-2"></div>
+                  <div className="overlay-3"></div>
+                </div>
+                {randomMovies.map((element, index) => {
+                  return (
+                    <div key={index} className="img-container">
+                      <div className="img-overlay"></div>
+                      <img
+                        className={`preview-img preview-${index}`}
+                        src={`${TMDB_IMAGE_BASE_URL}${element?.backdrop_path}`}
+                        alt="Not Found!"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="arrow arrow-right">&#8594;</div>
+        <div className="arrow arrow-right" onClick={() => handleSlide("right")}>
+          <i
+            onClick={(e) => e.stopPropagation()}
+            className="fa-solid fa-right-long"
+          ></i>
+        </div>
         <div className="hero-cover"></div>
       </div>
       <DisplayText text="Welcome To Cineverse"></DisplayText>
     </>
   );
+}
+
+function sliding(direction, previewElements, newCount, count) {
+  let baseGap = 70;
+  const imageWidth = previewElements[0].getBoundingClientRect().width;
+  if (direction === "left") {
+    previewElements.forEach((img, index) => {
+      const element = img;
+      const parent = element.parentElement.parentElement;
+
+      const parentRect = parent.getBoundingClientRect();
+      const childRect = element.getBoundingClientRect();
+
+      const baseHeightCoefficient = 80;
+      const relLeft = Math.round(childRect.left - parentRect.left);
+      const shiftedIndex = index - newCount;
+      console.log(imageWidth);
+
+      element.parentElement.style.transform = `translateX(-${imageWidth * newCount + 3 * index + baseGap * shiftedIndex}px)`;
+      element.parentElement.style.setProperty(
+        "height",
+        `${baseHeightCoefficient - 10 * shiftedIndex}%`,
+        "important",
+      );
+      if (index === newCount) element.parentElement.style.opacity = `1`;
+
+      // element.parentElement.style.opacity = `1`;
+
+      baseGap += 13;
+    });
+  } else {
+    previewElements.forEach((img, index) => {
+      const element = img;
+      const parent = element.parentElement.parentElement;
+
+      const parentRect = parent.getBoundingClientRect();
+      const childRect = element.getBoundingClientRect();
+
+      const baseHeightCoefficient = 80;
+      const relLeft = Math.round(childRect.left - parentRect.left);
+      const shiftedIndex = index - newCount;
+
+      element.parentElement.style.transform = `translateX(${-childRect.width * newCount - 3 * index - baseGap * shiftedIndex * 2}px)`;
+      element.parentElement.style.setProperty(
+        "height",
+        `${baseHeightCoefficient - 10 * shiftedIndex}%`,
+        "important",
+      );
+      if (index === count) element.parentElement.style.opacity = `0`;
+
+      baseGap -= 13;
+    });
+  }
 }

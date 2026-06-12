@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Button } from "bootstrap/dist/js/bootstrap.bundle.min";
 import { TMDB_API_BASE_URL } from "../scripts/api";
 import { TMDB_API_TOKEN } from "../scripts/api";
@@ -8,39 +9,61 @@ export function WatchBtn() {
   return <button className="watch-btn">Watch Now</button>;
 }
 
-export function GenreBtn(genreIds) {
-  const g = genreIds.genreId;
-  console.log(g);
-  let genres = getGanre();
-  // console.log(genres);
+export function GenreBtn({ genreId = [] }) {
+  const [genreNames, setGenreNames] = useState([]);
 
-  // const genreNames = g.map((id) => genres.find((genre) => genre === id)?.name);
-  // remove undefined/null
-  // console.log(genreNames);
+  useEffect(() => {
+    let active = true;
 
-  return;
-  <>
-    {genreNames.map((item) => (
-      <Button>{item}</Button>
-    ))}
-  </>;
+    async function loadGenres() {
+      if (!genreId?.length) {
+        setGenreNames([]);
+        return;
+      }
+
+      const data = await getGenre();
+      if (!active || !data?.genres) return;
+
+      const names = genreId
+        .map((id) => data.genres.find((genre) => genre.id === id)?.name)
+        .filter(Boolean);
+
+      setGenreNames(names);
+    }
+
+    loadGenres();
+
+    return () => {
+      active = false;
+    };
+  }, [genreId]);
+
+  return (
+    <>
+      {genreNames.map((item) => (
+        <button key={item} className="genre-btn">
+          {item}
+        </button>
+      ))}
+    </>
+  );
 }
 
-async function getGanre() {
+async function getGenre() {
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/genre/movie/list?api_key=${TMDB_API_KEY}&language=en-US`,
     );
 
     if (!response.ok) {
-      throw new error("NOT FOUND!");
+      throw new Error("NOT FOUND!");
     }
 
     const data = await response.json();
     // genres = data;
-    // console.log(genres);
+    console.log(data);
     return data;
-  } catch {
+  } catch (error) {
     console.error(error);
   }
   return;
