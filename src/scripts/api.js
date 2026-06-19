@@ -45,10 +45,6 @@ async function fetchAllMovies(page = 56) {
     }
 
     const data = await response.json();
-    // Each movie object has an "id" field
-    // const ids = data.results.map((movie) => movie.id);
-    // console.log(data);
-    // console.log(ids);
     return data;
   } catch (error) {
     console.error("Error fetching movies:", error);
@@ -57,3 +53,4 @@ async function fetchAllMovies(page = 56) {
 
 // Example: fetch first page
 export let movieData = fetchAllMovies();
+

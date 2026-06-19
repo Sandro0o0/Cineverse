@@ -1,0 +1,74 @@
+@use "../variables/_variables" as *;
+.recommended {
+  width: 100%;
+  height: auto;
+  color: #ff907f;
+  @extend %Section-gap;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .recommended-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+
+    .type-category {
+      max-width: 150px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background-color: #373737;
+
+      .type-background {
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        background-color: #fff;
+        z-index: 2;
+        transition: all 0.2s ease;
+      }
+
+      .type {
+        text-align: center;
+
+        font-size: 14px;
+        padding: 5px 2px;
+
+        transition: all 0.2s ease;
+        background: transparent;
+        color: #fff;
+        font-weight: bold;
+        flex: 1;
+        z-index: 3;
+
+        // &:hover {
+        //   cursor: pointer;
+        //   background: #5b5b5b;
+        // }
+      }
+
+      .type.active {
+        cursor: auto;
+        color: #000;
+      }
+    }
+  }
+}
+
+.recommended-container {
+  overflow-x: hidden;
+}
+.movie-list-container {
+  width: 100%;
+  height: 300px;
+
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}

@@ -49,3 +49,80 @@ export function sliderAnimation() {
     counter--;
   });
 }
+// Hightlight canvas logic
+
+export function drawCanvas() {
+  const canvas = document.querySelector(".highlight-overlay");
+  const ctx = canvas.getContext("2d");
+
+  let mouseX = null;
+  let mouseY = null;
+
+  let bubbleArr = [];
+
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+
+  window.addEventListener("resize", () => {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+  class Bubble {
+    constructor(width, height, x, y) {
+      this.width = width;
+      this.height = height;
+      this.x = x;
+      this.y = y;
+      this.image = document.getElementById("movie-png");
+      this.addIndex = 1;
+      // this.randomAngle = Math.round(Math.random(0, 0.5));
+      this.randomIndex = Math.round(Math.random(0, 1));
+      this.angleObj = {
+        0: Math.round(Math.random(0, 1)),
+        1: -Math.round(Math.random(0, 1)),
+      };
+    }
+
+    update(context) {
+      this.y -= this.addIndex;
+      this.addIndex += 0.05;
+
+      this.x += this.angleObj[this.randomIndex];
+
+      context.drawImage(
+        this.image,
+        0,
+        0,
+        this.image.width,
+        this.image.height - 10,
+        this.x - 37,
+        this.y - 37,
+        75,
+        75,
+      );
+      // context.rotate(0.001);
+    }
+  }
+
+  canvas.onclick = () => {
+    const bubble = new Bubble(canvas.width, canvas.height, mouseX, mouseY);
+    bubbleArr.push(bubble);
+  };
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    bubbleArr.forEach((e, index) => {
+      if (e.y < 0) {
+        bubbleArr.splice(index, 1);
+        console.log(bubbleArr);
+      }
+      e.update(ctx);
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+}

@@ -164,7 +164,7 @@ export function Hero() {
           <div className="hero-item">
             <img
               id="hero-bc-img"
-              src={`${TMDB_IMAGE_BASE_URL}${randomMovies[0]?.backdrop_path}`}
+              src={`${TMDB_IMAGE_BASE_URL}${randomMovies[count]?.backdrop_path}`}
               alt="Not Found!"
             />
             <div className="item-content">
@@ -189,7 +189,7 @@ export function Hero() {
                       <div className="img-overlay"></div>
                       <img
                         className={`preview-img preview-${index}`}
-                        src={`${TMDB_IMAGE_BASE_URL}${element?.backdrop_path}`}
+                        src={`${TMDB_IMAGE_BASE_URL}${element?.poster_path}`}
                         alt="Not Found!"
                       />
                     </div>
@@ -235,9 +235,10 @@ function sliding(direction, previewElements, newCount, count) {
         `${baseHeightCoefficient - 10 * shiftedIndex}%`,
         "important",
       );
-      if (index === newCount) element.parentElement.style.opacity = `1`;
-
-      // element.parentElement.style.opacity = `1`;
+      if (index === newCount) {
+        element.parentElement.style.opacity = `1`;
+        element.parentElement.style.pointerEvents = `auto`;
+      }
 
       baseGap += 13;
     });
@@ -259,7 +260,10 @@ function sliding(direction, previewElements, newCount, count) {
         `${baseHeightCoefficient - 10 * shiftedIndex}%`,
         "important",
       );
-      if (index === count) element.parentElement.style.opacity = `0`;
+      if (index === count) {
+        element.parentElement.style.opacity = `0`;
+        element.parentElement.style.pointerEvents = `none`;
+      }
 
       baseGap -= 13;
     });

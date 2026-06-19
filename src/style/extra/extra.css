@@ -1,0 +1,51 @@
+.watch-btn {
+  max-width: 200px;
+  padding: 5px 12px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: none;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+.watch-btn #now {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+  margin-left: 2px;
+}
+.watch-btn .button-cover {
+  position: absolute;
+  transform: translateX(150px) rotate(55deg) translateY(-150px);
+  min-width: 100%;
+  min-height: 300%;
+  background-color: #000;
+  transition: all 0.3s ease;
+}
+.watch-btn:hover .button-cover {
+  transform: translateX(-85px) rotate(55deg) translateY(-150px);
+}
+.watch-btn:hover #now {
+  transform: translateX(-10px) !important;
+  color: #fff;
+}
+
+.quote-container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1180px;
+  margin: auto;
+  margin-top: -20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 30px;
+  font-family: "Playwrite AR Guides";
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px -5px #fff, inset 0px 0px 40px -15px #ccc;
+  padding: 15px 0px;
+  backdrop-filter: blur(3px);
+}/*# sourceMappingURL=extra.css.map */

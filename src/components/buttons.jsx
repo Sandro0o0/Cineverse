@@ -6,7 +6,12 @@ import { TMDB_API_KEY } from "../scripts/api";
 
 // let genres = [];
 export function WatchBtn() {
-  return <button className="watch-btn">Watch Now</button>;
+  return (
+    <button className="watch-btn">
+      <span>Watch </span>
+      <span id="now">Now</span> <div className="button-cover"></div>
+    </button>
+  );
 }
 
 export function GenreBtn({ genreId = [] }) {
@@ -36,7 +41,7 @@ export function GenreBtn({ genreId = [] }) {
     return () => {
       active = false;
     };
-  }, [genreId]);
+  }, [JSON.stringify(genreId)]);
 
   return (
     <>
