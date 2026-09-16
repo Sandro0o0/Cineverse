@@ -3,6 +3,7 @@ import {
   TMDB_API_BASE_URL,
   TMDB_API_KEY,
   TMDB_API_TOKEN,
+  category,
 } from "../api.js";
 
 const urlPullMovies = "https://api.themoviedb.org/3/movie/changes?page=3";
@@ -43,10 +44,10 @@ export async function MoviesRequestID() {
   return MovieId;
 }
 
-export async function TrendingMoviesRequest() {
+export async function TrendingMoviesRequest(time_window, type = "movie") {
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/trending/movie/week`,
+      `https://api.themoviedb.org/3/trending/${type}/${time_window}`,
       options,
     );
     if (!response.ok) {
@@ -59,4 +60,48 @@ export async function TrendingMoviesRequest() {
     console.error(error);
   }
 }
-TrendingMoviesRequest();
+
+export async function PullMovie(id) {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${id}`,
+      options,
+    );
+
+    if (!response.ok) {
+      throw new Error("Error: ", response.status);
+    }
+    const data = await response.json();
+    console.log(data);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function PopularMovies() {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/top_rated`,
+      options,
+    );
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+PopularMovies();
+
+export async function RandomMovies(count, cat = "popular") {
+  try {
+    let randomNum = Math.floor(Math.random() * count) + 1;
+    const response = await fetch(category[cat] + `&page=${randomNum}`, options);
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+// PullMovie(255);

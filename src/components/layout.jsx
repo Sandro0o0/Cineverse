@@ -4,6 +4,7 @@ import { movieData, TMDB_IMAGE_BASE_URL } from "../scripts/api";
 import { HeroRandomMovies } from "../scripts/api/Movie.js";
 import { DisplayText } from "./texts.jsx";
 import { WatchBtn, GenreBtn } from "./buttons.jsx";
+import useEmblaCarousel from "embla-carousel-react";
 
 const randomMovies = await HeroRandomMovies();
 console.log(randomMovies);
@@ -87,12 +88,16 @@ export function Header() {
 }
 
 export function Hero() {
+  const [count, setCount] = useState(0);
   const directionValues = {
     left: -1,
     right: 1,
   };
-
-  const [count, setCount] = useState(0);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    dragFree: true,
+    containScroll: "trimSnaps",
+  });
 
   const handleSlide = (direction) => {
     setCount((prevCount) => {
@@ -172,8 +177,13 @@ export function Hero() {
                 <h1>{randomMovies[count]?.title}</h1>
 
                 <p>{randomMovies[count]?.overview.slice(0, 300)}..</p>
-                <div className="genres">
-                  <GenreBtn genreId={randomMovies[count]?.genre_ids}></GenreBtn>
+                <div className="embla" ref={emblaRef}>
+                  <div className="genres embla__container">
+                    <GenreBtn
+                      className="embla__slide"
+                      genreId={randomMovies[count]?.genre_ids}
+                    ></GenreBtn>
+                  </div>
                 </div>
                 <WatchBtn></WatchBtn>
               </div>
@@ -229,7 +239,7 @@ function sliding(direction, previewElements, newCount, count) {
       const shiftedIndex = index - newCount;
       console.log(imageWidth);
 
-      element.parentElement.style.transform = `translateX(-${imageWidth * newCount + 3 * index + baseGap * shiftedIndex}px)`;
+      element.parentElement.style.transform = `translateX(-${childRect.width * newCount + 3 * index + baseGap * shiftedIndex}px)`;
       element.parentElement.style.setProperty(
         "height",
         `${baseHeightCoefficient - 10 * shiftedIndex}%`,
@@ -254,7 +264,7 @@ function sliding(direction, previewElements, newCount, count) {
       const relLeft = Math.round(childRect.left - parentRect.left);
       const shiftedIndex = index - newCount;
 
-      element.parentElement.style.transform = `translateX(${-childRect.width * newCount - 3 * index - baseGap * shiftedIndex * 2}px)`;
+      element.parentElement.style.transform = `translateX(${-childRect.width * newCount + 3 * index - baseGap * shiftedIndex}px)`;
       element.parentElement.style.setProperty(
         "height",
         `${baseHeightCoefficient - 10 * shiftedIndex}%`,

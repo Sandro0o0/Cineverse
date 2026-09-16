@@ -5,6 +5,12 @@ export const TMDB_API_BASE_URL = "https://api.themoviedb.org/3";
 export const TMDB_API_TOKEN =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDU4NTQ1ZTQ4MGE5YWY2YzdmZDZjZWRiNmNhNGU1NyIsIm5iZiI6MTc3ODgzOTI0NC4wNTc5OTk4LCJzdWIiOiI2YTA2ZWVjY2U2MzRmNDYxNWYzZDllZTEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.TEDCb8_NhoKV-i8ajsN5-L5BzYrU2sy3YGrHZTYtSGc";
 export const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+export const category = {
+  popular: `${TMDB_API_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`,
+  topRated: `${TMDB_API_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}`,
+  upcoming: `${TMDB_API_BASE_URL}/movie/upcoming?api_key=${TMDB_API_KEY}`,
+  nowPlaying: `${TMDB_API_BASE_URL}/movie/now_playing?api_key=${TMDB_API_KEY}`,
+};
 
 async function fetchVideoData(videoId) {
   try {
@@ -53,4 +59,3 @@ async function fetchAllMovies(page = 56) {
 
 // Example: fetch first page
 export let movieData = fetchAllMovies();
-

@@ -16,10 +16,20 @@
 .recommended .recommended-text {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   gap: 20px;
 }
+.recommended .recommended-text .text-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  max-width: 40%;
+  width: 100%;
+}
 .recommended .recommended-text .type-category {
+  height: 80%;
   max-width: 150px;
   width: 100%;
   display: flex;
@@ -49,9 +59,17 @@
   flex: 1;
   z-index: 3;
 }
+.recommended .recommended-text .type-category .type:hover {
+  cursor: pointer;
+  background: #5b5b5b;
+}
 .recommended .recommended-text .type-category .type.active {
   cursor: auto;
   color: #000;
+}
+.recommended .recommended-text .type-category .type.active:hover {
+  cursor: auto;
+  background-color: #fff;
 }
 
 .recommended-container {
@@ -64,4 +82,54 @@
   display: flex;
   flex-direction: row;
   gap: 20px;
+}
+
+.recommended-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.embla {
+  overflow: hidden;
+  flex: 1;
+}
+
+.embla-scroll {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.embla__prev,
+.embla__next {
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.embla__prev:hover,
+.embla__next:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
+}
+
+/* Optional: Hide arrows when not needed */
+.embla__prev:disabled,
+.embla__next:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }/*# sourceMappingURL=main-course.css.map */

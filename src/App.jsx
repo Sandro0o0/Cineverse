@@ -1,30 +1,21 @@
 // App.jsx
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { useEffect, useState } from "react";
-import { DisplayUserName } from "./components/messages.jsx"; // curly braces for named export
-import { Header, Hero } from "./components/layout.jsx";
-import { RecommendedMovies } from "./components/recomended.jsx";
+// Pages
+import { Index, MoviePage } from "./components/pages/pages.jsx";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; // <-- add this line
-import {
-  initScrollAnimation,
-  bellAnimation,
-  drawCanvas,
-} from "./scripts/animations.js";
 
 function App() {
-  useEffect(() => {
-    initScrollAnimation();
-    bellAnimation();
-    drawCanvas();
-  }, []);
-
   return (
     <>
-      <Header />
-      <Hero />
-      <RecommendedMovies />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/movies" search="?id=:id" element={<MoviePage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

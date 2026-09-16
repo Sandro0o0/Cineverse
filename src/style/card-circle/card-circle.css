@@ -1,0 +1,81 @@
+.card-circle-section {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.card-circle-section .card-circle {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: row;
+  width: 850px;
+  height: 850px;
+  border-radius: 50%;
+  border: 5px solid #ccc;
+  outline: 5px solid #ccc;
+}
+.card-circle-section .card-circle .circle-card-0 {
+  position: relative;
+  top: calc(50% - 100px);
+  left: -60px;
+}
+.card-circle-section .card-circle .circle-card-1 {
+  position: relative;
+  top: calc(100% - 150px);
+}
+.card-circle-section .card-circle .circle-card-2 {
+  position: relative;
+  left: -200px;
+  bottom: 60px;
+}
+.card-circle-section .card-circle .circle-card-3 {
+  position: relative;
+  bottom: 60px;
+}
+.card-circle-section .card-circle .circle-card-4 {
+  position: relative;
+  top: calc(100% - 150px);
+  left: -125px;
+}
+.card-circle-section .card-circle .circle-card-5 {
+  position: relative;
+  top: calc(50% - 100px);
+  left: -150px;
+}
+.card-circle-section .card-circle-card-container {
+  position: relative;
+  z-index: 3;
+  flex: 1;
+  height: 250px;
+}
+.card-circle-section h1 {
+  font-size: 25px !important;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.spinning-neg {
+  animation: rotate-negative 20s linear infinite;
+}
+
+.spinning-pos {
+  animation: rotate-positive 20s linear infinite;
+}
+
+@keyframes rotate-positive {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
+@keyframes rotate-negative {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}/*# sourceMappingURL=card-circle.css.map */

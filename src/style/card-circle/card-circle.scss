@@ -1,0 +1,115 @@
+.card-circle-section {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .card-circle {
+    margin-top: 150px;
+    display: flex;
+    flex-direction: row;
+    width: 850px;
+    height: 850px;
+    border-radius: 50%;
+
+    border: 5px solid #ccc;
+    outline: 5px solid #ccc;
+    .card-circle-card-container {
+      // rotate: 0deg !important;
+    }
+    .circle-card-0 {
+      position: relative;
+      top: calc(50% - 100px);
+      left: -60px;
+      //   transform: translateY(150%) rotate(0deg);
+    }
+    .circle-card-1 {
+      //   position: relative;
+      position: relative;
+      top: calc(100% - 150px);
+      // right: -50px;
+      //   top: calc(100% - 250px);
+
+      // transform: rotate(0deg);
+      //   transform: translateY(300%) rotate(0deg);
+    }
+    .circle-card-2 {
+      position: relative;
+      left: -200px;
+      bottom: 60px;
+      // transform: rotate(0deg);
+    }
+    .circle-card-3 {
+      position: relative;
+      // right: -125px;
+      bottom: 60px;
+
+      //   top: calc(100% - 250px);
+      // transform: rotate(0deg);
+    }
+    .circle-card-4 {
+      // transform: rotate(0deg);
+      position: relative;
+      top: calc(100% - 150px);
+      left: -125px;
+
+      //   top: calc(50% - 100px);
+    }
+    .circle-card-5 {
+      // transform: rotate(0deg);
+      position: relative;
+      top: calc(50% - 100px);
+      left: -150px;
+
+      //   top: calc(50% - 100px);
+    }
+  }
+
+  .card-circle-card-container {
+    // flex: 1.5;
+    position: relative;
+    z-index: 3;
+    // animation: rotate-negative 20s linear infinite;
+    flex: 1;
+    // width: 140px;
+    // max-width: 250px;
+    height: 250px;
+    // background-color: #fff;
+  }
+
+  h1 {
+    font-size: 25px !important;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  //   margin-top: -20px;
+}
+
+.spinning-neg {
+  animation: rotate-negative 20s linear infinite;
+}
+.spinning-pos {
+  animation: rotate-positive 20s linear infinite;
+}
+
+@keyframes rotate-positive {
+  0% {
+    rotate: 0deg;
+    // transform: rotate(0deg);
+  }
+  100% {
+    rotate: 360deg;
+    // transform: rotate(360deg);
+  }
+}
+@keyframes rotate-negative {
+  0% {
+    // rotate: 0deg !important;
+    transform: rotate(0deg);
+  }
+  100% {
+    // rotate: -360deg !important;
+    transform: rotate(-360deg);
+  }
+}

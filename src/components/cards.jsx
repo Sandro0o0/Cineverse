@@ -1,25 +1,43 @@
 import { GenreBtn } from "./buttons";
 import { TMDB_IMAGE_BASE_URL } from "../scripts/api";
+import { forwardRef } from "react";
+import { useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
 
-export function CreateCard(Movie) {
-  const movieData = Movie.movie; // Obj
-  console.log(movieData);
+export const CreateCard = forwardRef(function CreateCard(
+  { movie, classname = "" },
+  ref,
+) {
+  const movieData = movie;
+
+  // Movie Page relocate
+  function Relocate(id) {
+    window.location.href = `/movies/?id=${id}`;
+  }
+  // useEffect(() => {}, [movieData]);
 
   return (
-    <div className="card-container">
+    <div ref={ref} className={`card-container ${classname}`}>
       <img src={TMDB_IMAGE_BASE_URL + movieData.poster_path} alt="" />
       <div className="essencials">
         <HD />
         <ReleseDate date={movieData.release_date} />
         <GenreBtn genreId={movieData.genre_Ids} />
       </div>
-      <i class="fa-solid fa-circle-play play-icon"></i>
+      <a
+        onClick={() => Relocate(movieData.id)}
+        // href="./templates/movie/"
+        target=""
+        rel="noopener noreferrer"
+      >
+        <i className="fa-solid fa-circle-play play-icon"></i>
+      </a>
       <div className="content">
         <div className="title">{movieData.title}</div>
       </div>
     </div>
   );
-}
+});
 
 function TmdbHd() {
   return (

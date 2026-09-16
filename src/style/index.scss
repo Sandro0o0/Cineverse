@@ -4,7 +4,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "roboto";
+  // font-family: "archivo black";
+
+  font-family: sans-serif;
 }
 
 .root {
@@ -45,7 +47,7 @@ body::-webkit-scrollbar-track {
   background-color: $Secondery-cl !important;
   height: 80px;
   border-bottom: #ccc 3px solid;
-  z-index: 3;
+  z-index: 4;
 
   .navbar {
     ul {
@@ -276,7 +278,6 @@ body::-webkit-scrollbar-track {
     margin: auto;
     display: flex;
     flex-direction: row;
-    // justify-content: center;
     align-items: center;
 
     gap: 15px;
@@ -292,14 +293,12 @@ body::-webkit-scrollbar-track {
 
     h1 {
       font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-      max-width: 600px;
+      max-width: 650px;
       color: #fff;
-      font-size: 3.5rem;
-      // border-bottom: 2px solid #ff6b57;
-      // margin-bottom: 15px;
+      font-size: 3rem;
     }
     p {
-      font-size: 1.1rem;
+      font-size: 1rem;
       max-width: 60%;
       color: #ccc;
     }
@@ -356,7 +355,6 @@ body::-webkit-scrollbar-track {
 
     width: 40%;
     height: 100%;
-    // background-color: #000;
 
     display: flex;
     flex-direction: row;
@@ -404,7 +402,6 @@ body::-webkit-scrollbar-track {
     img {
       width: 100% !important;
       height: 100% !important;
-      // z-index: -1;
 
       &:hover {
         transform: scale(1.1) !important;
@@ -433,17 +430,19 @@ body::-webkit-scrollbar-track {
   flex-direction: row;
   gap: 10px;
   max-width: 250px;
-  overflow: hidden;
-  box-shadow: inset -100px 0px 100px -100px #fff;
+  // overflow: hidden;
+  // box-shadow: inset -100px 0px 100px -100px #fff;
   border-radius: 15px;
 
   .genre-btn {
+    min-width: 150px;
+    // min-width: 150px;
     padding: 5px 15px;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid #fff;
     color: #fff;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     &:hover {
       background-color: $Primary-cl;
       border-color: $Primary-cl;

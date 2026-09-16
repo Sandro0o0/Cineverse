@@ -3,6 +3,8 @@ import { Button } from "bootstrap/dist/js/bootstrap.bundle.min";
 import { TMDB_API_BASE_URL } from "../scripts/api";
 import { TMDB_API_TOKEN } from "../scripts/api";
 import { TMDB_API_KEY } from "../scripts/api";
+import { react } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 
 // let genres = [];
 export function WatchBtn() {
