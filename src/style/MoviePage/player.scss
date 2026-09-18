@@ -1,0 +1,70 @@
+@use "../variables/_variables" as *;
+
+iframe {
+  width: 100%;
+  height: 35rem;
+  border-radius: 15px;
+  box-shadow: 0px 0px 40px -15px #ece5e5;
+  margin: 40px 0px;
+}
+
+.movie-title {
+  font-size: 22px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #fff;
+}
+
+.player-server-container {
+  width: 100%;
+  height: fit-content;
+  // min-height: 0px;
+  padding: 12px 18px;
+
+  background-color: rgba($color: #545454, $alpha: 0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .server-list {
+    font-size: 14px;
+    font-family: "Courier New", Courier, monospace;
+
+    font-weight: bold;
+
+    padding: 7px 12px;
+    border-radius: 10px;
+    background-color: rgba($color: #686767, $alpha: 0.6);
+    width: fit-content;
+    opacity: 0.8;
+    &:hover {
+      cursor: pointer;
+      background-color: rgba($color: #686767, $alpha: 1);
+    }
+  }
+  // in Action
+  .server-list.active {
+    transition: all linear 0.2s;
+    border: 2px solid #000;
+    scale: 0.95;
+    background-color: rgba($color: #751212, $alpha: 1) !important;
+  }
+}
+
+.LOADING {
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  // background-color: #ccc;
+  color: #fff;
+  font-size: 4rem;
+}

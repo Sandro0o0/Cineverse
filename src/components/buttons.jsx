@@ -7,12 +7,14 @@ import { react } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
 // let genres = [];
-export function WatchBtn() {
+export function WatchBtn({ movieId }) {
   return (
-    <button className="watch-btn">
-      <span>Watch </span>
-      <span id="now">Now</span> <div className="button-cover"></div>
-    </button>
+    <a href={"/movies?id=" + String(movieId)}>
+      <button className="watch-btn">
+        <span>Watch </span>
+        <span id="now">Now</span> <div className="button-cover"></div>
+      </button>
+    </a>
   );
 }
 

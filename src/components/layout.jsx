@@ -9,25 +9,35 @@ import useEmblaCarousel from "embla-carousel-react";
 const randomMovies = await HeroRandomMovies();
 console.log(randomMovies);
 
-export function Header() {
+export function Header({ currentPage = "home" }) {
   return (
     <div className="header-container">
       <nav className="navbar">
-        <h1 className="logo-text">CINEVERSE</h1>
+        <a href="/">
+          <h1 className="logo-text">CINEVERSE</h1>
+        </a>
         <ul className="list-group list-group-horizontal">
-          <li className="hover-text-effect active">
-            Home
-            <div className="underline"></div>
-          </li>
+          <a href="/">
+            <li className="hover-text-effect">
+              Home
+              <div className="underline"></div>
+            </li>
+          </a>
 
-          <li className="hover-text-effect">
-            Movies
-            <div className="underline"></div>
-          </li>
-          <li className="hover-text-effect">
-            Series
-            <div className="underline"></div>
-          </li>
+          <a href="">
+            <li className="hover-text-effect">
+              Movies
+              <div className="underline"></div>
+            </li>
+          </a>
+
+          <a href="">
+            <li className="hover-text-effect">
+              Series
+              <div className="underline"></div>
+            </li>
+          </a>
+
           <li className="nav-item dropdown ">
             <a
               className="nav-link dropdown-toggle"
@@ -38,6 +48,7 @@ export function Header() {
             >
               Dropdown
             </a>
+
             <ul className="dropdown-menu">
               <li>
                 <a className="dropdown-item" href="#">
@@ -69,11 +80,13 @@ export function Header() {
               </li>
             </ul>
           </li>
-          {""}
-          <li className="hover-text-effect">
-            Watchlist
-            <div className="underline"></div>
-          </li>
+
+          <a href="">
+            <li className="hover-text-effect">
+              Watchlist
+              <div className="underline"></div>
+            </li>
+          </a>
         </ul>
       </nav>
       <div className="services">
@@ -185,7 +198,7 @@ export function Hero() {
                     ></GenreBtn>
                   </div>
                 </div>
-                <WatchBtn></WatchBtn>
+                <WatchBtn movieId={randomMovies[count]?.id}></WatchBtn>
               </div>
               <div className="preview-banners">
                 <div className="preview-overlay">

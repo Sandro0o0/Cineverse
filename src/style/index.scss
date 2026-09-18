@@ -50,6 +50,9 @@ body::-webkit-scrollbar-track {
   z-index: 4;
 
   .navbar {
+    a {
+      text-decoration: none;
+    }
     ul {
       gap: 10px;
     }

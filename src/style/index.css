@@ -48,6 +48,9 @@ body::-webkit-scrollbar-track {
   border-bottom: #ccc 3px solid;
   z-index: 4;
 }
+.header-container .navbar a {
+  text-decoration: none;
+}
 .header-container .navbar ul {
   gap: 10px;
 }

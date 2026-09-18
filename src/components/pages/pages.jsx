@@ -8,16 +8,20 @@ import { BannerSection } from "../banner.jsx";
 import { CardCircle } from "../card-cyrcle.jsx";
 
 // For Movie Fetching
-import { PullMovie } from "../../scripts/api/Movie.js";
+import { MoviesRequestID, PullMovie } from "../../scripts/api/Movie.js";
 
 // Page Imports
 import { Player } from "../MoviePage/player.jsx";
 
+// Animations Import
 import {
   initScrollAnimation,
   bellAnimation,
   drawCanvas,
 } from "../../scripts/animations.js";
+
+// Styles Import
+import "../../style/MoviePage/content.css";
 
 export function Index() {
   useEffect(() => {
@@ -49,16 +53,29 @@ export function MoviePage() {
   const url = new URLSearchParams(window.location.search);
   const MovieId = url.get("id");
 
-  const FetchedMovieData = async (id) => {
-    const data = await PullMovie(id);
-    console.log(data);
-    return data;
-  };
+  const [movieData, setMovieData] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!MovieId) return;
+
+    const FetchedMovieData = async (id) => {
+      const data = await PullMovie(id);
+      setMovieData(data);
+      setLoading(false);
+    };
+
+    FetchedMovieData(MovieId);
+  }, [MovieId]);
+
+  if (loading) return <p className="LOADING">Loading...</p>;
 
   return (
     <>
-      <Player MovieData={() => FetchedMovieData(MovieId)}></Player>
       <Header></Header>
+      <main className="movie-page-container">
+        <Player MovieData={movieData}></Player>
+      </main>
     </>
   );
 }

@@ -1,0 +1,6 @@
+@use "../variables/_variables" as *;
+
+main {
+  @extend %Section-gap;
+  display: block;
+}
