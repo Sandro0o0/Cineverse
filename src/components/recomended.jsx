@@ -14,14 +14,17 @@ export function RecommendedMovies({ request = "week", title, index }) {
     dragFree: true,
     containScroll: "trimSnaps",
   });
+  let pullData;
 
-  let pullData = async () => {
-    let data = await TrendingMoviesRequest(
-      `${request}`,
-      currentType === "Movies" ? "movie" : "tv",
-    );
-    setData(data);
-  };
+  useEffect(() => {
+    pullData = async () => {
+      let data = await TrendingMoviesRequest(
+        `${request}`,
+        currentType === "Movies" ? "movie" : "tv",
+      );
+      setData(data);
+    };
+  }, [currentType]);
 
   useEffect(() => {
     try {
@@ -31,7 +34,7 @@ export function RecommendedMovies({ request = "week", title, index }) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [loading]);
 
   const handleType = (e) => {
     const typeSelector = {

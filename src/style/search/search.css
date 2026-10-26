@@ -1,0 +1,10 @@
+* {
+  margin: 0;
+}
+
+.search-grid {
+  display: grid;
+  flex-wrap: wrap;
+  gap: 15px;
+  grid-template-columns: repeat(6, auto);
+}/*# sourceMappingURL=search.css.map */

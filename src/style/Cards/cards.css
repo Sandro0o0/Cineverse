@@ -1,3 +1,7 @@
+.grey {
+  color: grey;
+}
+
 .card-container {
   position: relative;
   min-width: 180px;
@@ -21,7 +25,7 @@
   transition: all 0.3s ease;
 }
 .card-container:hover .title {
-  color: #ff907f !important;
+  color: #c1c1c1 !important;
   backdrop-filter: blur(5px);
   box-shadow: inset 0px -30px 60px -40px #fff;
 }
@@ -50,7 +54,7 @@
 }
 .card-container .play-icon:hover {
   cursor: pointer;
-  color: #ff907f;
+  color: #c1c1c1;
 }
 .card-container .play-icon:active {
   scale: 0.9;
@@ -96,7 +100,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: #ff907f;
+  background-color: #c1c1c1;
 }
 .essencials .hd-container p {
   margin: 0;

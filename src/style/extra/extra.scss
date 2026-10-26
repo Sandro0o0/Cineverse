@@ -1,3 +1,5 @@
+@use "../variables/_variables" as *;
+
 .watch-btn {
   max-width: 200px;
   padding: 5px 12px;
@@ -7,6 +9,10 @@
   position: relative;
   transition: all 0.3s ease;
   overflow: hidden;
+
+  span {
+    color: #333;
+  }
 
   #now {
     position: relative;

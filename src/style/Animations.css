@@ -101,3 +101,51 @@
 .show {
   display: block !important;
 }
+
+.fade-into {
+  transition: all 0.5s linear;
+  animation: fade-in 0.5s linear;
+}
+
+@keyframes fade-in {
+  from {
+    position: relative;
+    opacity: 0;
+
+    transform: translateX(-45px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+.fade-in-vertical {
+  transition: all 0.5s linear;
+  animation: fade-in-vertical 0.5s linear;
+}
+
+@keyframes fade-in-vertical {
+  from {
+    opacity: 0;
+    transform: translateY(45px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+/* Pure opacity, no movement */
+.fade-in-opacity {
+  transition: all 0.8s linear;
+  animation: fade-in-opacity 0.5s linear;
+}
+
+@keyframes fade-in-opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

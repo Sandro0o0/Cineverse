@@ -24,7 +24,7 @@ export function Header({ currentPage = "home" }) {
             </li>
           </a>
 
-          <a href="">
+          <a href="/movie">
             <li className="hover-text-effect">
               Movies
               <div className="underline"></div>
@@ -181,12 +181,13 @@ export function Hero() {
         <div id="hero-content" className="hero-content">
           <div className="hero-item">
             <img
+              className="fade-in-opacity"
               id="hero-bc-img"
               src={`${TMDB_IMAGE_BASE_URL}${randomMovies[count]?.backdrop_path}`}
               alt="Not Found!"
             />
             <div className="item-content">
-              <div className="content">
+              <div className="content fade-in-vertical">
                 <h1>{randomMovies[count]?.title}</h1>
 
                 <p>{randomMovies[count]?.overview.slice(0, 300)}..</p>
@@ -208,7 +209,7 @@ export function Hero() {
                 </div>
                 {randomMovies.map((element, index) => {
                   return (
-                    <div key={index} className="img-container">
+                    <div key={index} className="img-container fade-in-opacity">
                       <div className="img-overlay"></div>
                       <img
                         className={`preview-img preview-${index}`}

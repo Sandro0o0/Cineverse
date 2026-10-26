@@ -33,7 +33,7 @@ export function BannerSection() {
       <div className="banner-header">
         <h1>Popular Movies</h1>
       </div>
-      <div className="embla" ref={emblaRef}>
+      <div className="embla banner-cards" ref={emblaRef}>
         <div className="embla__container movie-list-container">
           {data?.results?.map((movie) => (
             <div className="embla__slide" key={movie.id}>

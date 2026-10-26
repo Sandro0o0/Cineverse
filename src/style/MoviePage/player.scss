@@ -4,25 +4,102 @@ iframe {
   width: 100%;
   height: 35rem;
   border-radius: 15px;
-  box-shadow: 0px 0px 40px -15px #ece5e5;
-  margin: 40px 0px;
+  margin-top: 30px;
+  position: relative;
 }
 
-.movie-title {
-  font-size: 22px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  color: #fff;
+.image-cover {
+  backdrop-filter: blur(5px);
+}
+.movie-page-navigation {
+  padding: 10px 20px;
+  margin-top: 80px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  color: #ffffff64;
+  border-bottom: 2px solid #fff;
+
+  a {
+    color: #ffffff64;
+
+    text-decoration: none;
+    transition: all 0.1s linear;
+
+    &:hover {
+      color: $Primary-cl;
+      cursor: pointer;
+    }
+  }
+
+  .nav-links {
+    position: relative;
+    // z-index: 2;
+    margin: 0;
+    transition: all 0.1s linear;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  span {
+    font-size: 30px;
+  }
+}
+// .player-container {
+//   padding: 20px 0px !important;
+// }
+
+// Player main container
+.movie-page-container {
+  margin: 0px auto;
+  padding: 20px 0px !important;
+
+  .player-img {
+    position: absolute !important;
+
+    left: 0;
+
+    width: 100%;
+    max-height: 100%;
+
+    object-fit: cover;
+    z-index: -1;
+    backdrop-filter: blur(10px);
+  }
+  .player-img-cover {
+    position: absolute;
+    left: 0;
+    z-index: -1;
+
+    width: 100%;
+    height: 100%;
+
+    backdrop-filter: blur(7px);
+    background-color: rgba(26, 26, 26, 0.4);
+    box-shadow: inset 0px -350px 350px 0px #1f1f1f !important;
+  }
+}
+.server-recommend-message {
+  text-align: center;
+  color: #ffffff64;
+  margin-top: 10px;
+  // padding: 0px 10px;
 }
 
 .player-server-container {
   width: 100%;
   height: fit-content;
-  // min-height: 0px;
-  padding: 12px 18px;
+  padding: 14px 18px;
 
-  background-color: rgba($color: #545454, $alpha: 0.2);
-  backdrop-filter: blur(5px);
-  border-radius: 20px;
+  background-color: rgba(#1a1a1a, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(#fff, 0.08);
+  border-radius: 16px;
 
   display: flex;
   flex-direction: row;
@@ -30,41 +107,130 @@ iframe {
   gap: 10px;
 
   .server-list {
-    font-size: 14px;
+    position: relative;
+    font-size: 13px;
     font-family: "Courier New", Courier, monospace;
+    font-weight: 600;
+    letter-spacing: 0.3px;
 
-    font-weight: bold;
-
-    padding: 7px 12px;
+    padding: 8px 16px;
     border-radius: 10px;
-    background-color: rgba($color: #686767, $alpha: 0.6);
     width: fit-content;
-    opacity: 0.8;
+
+    color: rgba(#fff, 0.75);
+    background-color: rgba(#fff, 0.06);
+    border: 1px solid rgba(#fff, 0.08);
+
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+
     &:hover {
-      cursor: pointer;
-      background-color: rgba($color: #686767, $alpha: 1);
+      background-color: rgba(#fff, 0.12);
+      border-color: rgba(#fff, 0.15);
+      color: #fff;
+      transform: translateY(-1px);
     }
-  }
-  // in Action
-  .server-list.active {
-    transition: all linear 0.2s;
-    border: 2px solid #000;
-    scale: 0.95;
-    background-color: rgba($color: #751212, $alpha: 1) !important;
+
+    &:active {
+      transform: translateY(0) scale(0.97);
+    }
+
+    // Active / selected server
+    &.active {
+      color: #fff;
+      background-color: rgba(#e63946, 0.9);
+      border-color: rgba(#e63946, 1);
+      box-shadow: 0 0 0 2px rgba(#e63946, 0.25);
+      transform: scale(0.97);
+
+      &:hover {
+        background-color: rgba(#e63946, 1);
+        transform: scale(0.97); // don't lift when active+hovered
+      }
+
+      // subtle "live" indicator dot
+      &::before {
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #fff;
+        margin-right: 6px;
+        vertical-align: middle;
+        animation: pulse 1.6s ease-in-out infinite;
+      }
+    }
+
+    // Optional: disabled/offline server state
+    &.disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
   }
 }
 
-.LOADING {
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+// .LOADING {
+//   width: 50%;
+//   height: 50vh;
+
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+
+//   text-align: center;
+//   color: #fff;
+//   font-size: 4rem;
+// }
+.loader-container {
   width: 100%;
   height: 100vh;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 
-  text-align: center;
-  // background-color: #ccc;
-  color: #fff;
-  font-size: 4rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.LOADING {
+  width: fit-content;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 40px;
+  color: #f4f4f4;
+  background: linear-gradient(90deg, #c02942 calc(50% + 0.5ch), #000 0)
+    right/calc(200% + 1ch) 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: l7 2s infinite steps(11);
+}
+.LOADING:before {
+  content: "Loading...";
+}
+@keyframes l7 {
+  to {
+    background-position: left;
+  }
 }

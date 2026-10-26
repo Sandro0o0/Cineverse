@@ -5,6 +5,10 @@
   margin-top: 80px;
 }
 
+.grey {
+  color: grey;
+}
+
 .recommended {
   width: 100%;
   height: auto;

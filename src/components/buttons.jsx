@@ -5,12 +5,13 @@ import { TMDB_API_TOKEN } from "../scripts/api";
 import { TMDB_API_KEY } from "../scripts/api";
 import { react } from "react";
 import useEmblaCarousel from "embla-carousel-react";
+import FadeContent from "../components/FadeContent";
 
 // let genres = [];
 export function WatchBtn({ movieId }) {
   return (
     <a href={"/movies?id=" + String(movieId)}>
-      <button className="watch-btn">
+      <button className="watch-btn  fade-into">
         <span>Watch </span>
         <span id="now">Now</span> <div className="button-cover"></div>
       </button>

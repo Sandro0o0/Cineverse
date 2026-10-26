@@ -14,6 +14,14 @@ const options = {
     Authorization: `Bearer ${TMDB_API_TOKEN}`,
   },
 };
+// window.addEventListener("message", (event) => {
+//   if (event.origin !== "https://vidlink.pro") return;
+//   if (localStorage.getItem("vidLinkProgress")) return;
+//   if (event.data?.type === "MEDIA_DATA") {
+//     const mediaData = event.data.data;
+//     localStorage.setItem("vidLinkProgress", JSON.stringify(mediaData));
+//   }
+// });
 
 let randomMovies = [];
 export async function HeroRandomMovies() {
@@ -77,6 +85,28 @@ export async function PullMovie(id) {
     console.error(err);
   }
 }
+export async function PullSeries(id) {
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/tv/${id}?api_key=${TMDB_API_KEY}`,
+    );
+    const season = await res.json();
+    return season;
+  } catch (err) {
+    console.error(err);
+  }
+}
+export async function PullEpisodes(id, seasonNumber) {
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/tv/${id}/season/${seasonNumber}?api_key=${TMDB_API_KEY}`,
+    );
+    const episodes = await res.json();
+    return episodes;
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 export async function PopularMovies() {
   try {
@@ -91,6 +121,21 @@ export async function PopularMovies() {
     console.error(err);
   }
 }
+export async function SimilarMovies(id, page = 1) {
+  //api.themoviedb.org/3/movie/550/similar?api_key=YOUR_API_KEY&language=en-US&page=1
+  https: try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${TMDB_API_KEY}&language=en-US&page=${page}`,
+      options,
+    );
+    const data = await response.json();
+
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 PopularMovies();
 
 export async function RandomMovies(count, cat = "popular") {
