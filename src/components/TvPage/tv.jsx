@@ -51,31 +51,34 @@ const MoviePlayers = {
 };
 const MovieKeys = Object.keys(MoviePlayers);
 
-// useEffect()
-
-function SeriesAndEpisodes({ data = "" }) {
-  const [season, setSeason] = useState(1);
-  const [episodes, setEpisodes] = useState([]);
-  const [EpisodeCount, setEpisodeCount] = useState(
-    Number(data?.seasons[season].episode_count),
+function SeriesAndEpisodes({ data = "", setPlayerLoad }) {
+  const [season, setSeason] = useState(
+    Number(new URLSearchParams(window.location.search).get("season")) || 1,
   );
+
+  const [currentEpisode, setCurrentEpisode] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    const season = Number(params.get("season")) || 1;
+    const ep = Number(params.get("ep")) || 1;
+
+    return { [season]: ep };
+  });
+
+  const [EpisodeCount, setEpisodeCount] = useState(0);
 
   const navigate = useNavigate();
 
-  const GetEpisodes = async (e) => {
-    console.log(e.target.value);
-  };
-
-  // console.log(data);
-  // useEffect(() => {
-  //   setSeason(1);
-  //   setEpisodeCount(data?.seasons[season].episode_count);
-  // }, []);
+  // Get the active episode for the current season
+  const activeEpisode = currentEpisode[season];
 
   useEffect(() => {
-    setEpisodeCount(data?.seasons[season].episode_count);
+    const selectedSeason = data?.seasons?.find(
+      (s) => s.season_number === Number(season),
+    );
+
+    setEpisodeCount(selectedSeason?.episode_count ?? 0);
   }, [data, season]);
-  // console.log(data);
+
   return (
     <div className="w-full border-t h-30 flex items-center justify-between border-white/10 bg-[#131313]">
       <div className="flex min-h-[76px] items-center w-full justify-between gap-4 px-4 sm:px-6">
@@ -88,17 +91,33 @@ function SeriesAndEpisodes({ data = "" }) {
               Choose a season to watch
             </p>
           </div>
+
           <div className="episodes flex flex-row gap-3">
             {Array.from({ length: EpisodeCount }, (_, i) => {
+              const episodeNumber = i + 1;
+              const isActive = activeEpisode === episodeNumber;
+
               return (
                 <span
-                  value={i + 1}
-                  onClick={(e) =>
-                    navigate(`/tv/?id=${data?.id}&season=${season}&ep=${i + 1}`)
-                  }
-                  className="fade-in-opacity py-1 px-3 rounded-1 bg-[#333] text-xl text-[#ccc] cursor-pointer transition-all duration-75! hover:text-[#fff] hover:scale-[1.1]"
+                  key={`${season}-${episodeNumber}`}
+                  value={episodeNumber}
+                  onClick={(e) => {
+                    setCurrentEpisode((prev) => ({
+                      ...prev,
+                      [season]: episodeNumber,
+                    }));
+
+                    navigate(
+                      `/tv/?id=${data?.id}&season=${season}&ep=${episodeNumber}`,
+                    );
+
+                    setPlayerLoad(true);
+                  }}
+                  className={`fade-in-opacity py-1 px-3 rounded-1 bg-[#333] text-xl text-[#ccc] cursor-pointer transition-all duration-75! hover:text-[#fff] hover:scale-[1.1] ${
+                    isActive ? "scale-[1.1] text-white bg-red-700" : "scale-100"
+                  }`}
                 >
-                  {i + 1}
+                  {episodeNumber}
                 </span>
               );
             })}
@@ -107,10 +126,12 @@ function SeriesAndEpisodes({ data = "" }) {
 
         <div className="relative shrink-0">
           <select
-            onChange={(e) => setSeason(e.target.value)}
+            value={season}
+            onChange={(e) => {
+              setSeason(Number(e.target.value));
+            }}
             name="season"
             aria-label="Select season"
-            defaultValue="1"
             className="h-11 w-36 cursor-pointer appearance-none rounded-md border border-white/10 bg-[#1c1c1c] px-3 pr-9 text-sm text-white outline-none transition-colors hover:border-white/30 focus:border-white/40"
           >
             {data?.seasons
@@ -130,7 +151,6 @@ function SeriesAndEpisodes({ data = "" }) {
     </div>
   );
 }
-
 function Navigation() {
   const navigator = useNavigate();
   return (
@@ -263,6 +283,15 @@ function TvPlayer({ MovieData, season = "1", ep = "1" }) {
                 <p className="max-w-[70%] text-[#fff] opacity-[0.8] ">
                   {MovieData?.overview.split(" ").slice(0, 50).join(" ")}
                 </p>
+                <div className="tv-nav flex flex-row items-center">
+                  <span className="text-sm flex nowrap font-bold">
+                    Season:{" "}
+                    <p className="px-2  text-[#CB904D]">{season}</p>{" "}
+                  </span>
+                  <span className="text-sm flex nowrap font-bold">
+                    Episode: <p className="px-2  text-[#CB904D]">{ep}</p>
+                  </span>
+                </div>
               </div>
               <div className="relative play-icon w-[50%] min-h-[50vh] flex justify-center items-center ">
                 <i
@@ -272,7 +301,7 @@ function TvPlayer({ MovieData, season = "1", ep = "1" }) {
               </div>
             </div>
           </div>
-          <SeriesAndEpisodes data={MovieData} />
+          <SeriesAndEpisodes data={MovieData} setPlayerLoad={setPlayerLoad} />
           <p className="server-recommend-message">
             if the player doesn't work try another
           </p>
@@ -315,13 +344,12 @@ export function Tv() {
   const url = new URLSearchParams(window.location.search);
   const [data, setData] = useState(null);
 
-  const seriesId = url.get("id");
-  const season = url.get("season");
-  const episode = url.get("ep");
+  // Loads Data from url
+  const seriesId = url.get("id"); // GET id from url
+  const season = url.get("season"); // GET Season from url
+  const episode = url.get("ep"); // GET Episode from url
 
   //
-  const seasonNumber = 1;
-  // console.log(seriesId);
   const loadData = async () => {
     const dt = await PullSeries(seriesId);
     setData(dt);
@@ -340,9 +368,7 @@ export function Tv() {
           alt=""
         />
         <div className="player-img-cover"></div>
-        {/* <Player MovieData={movieData}></Player> */}
         <TvPlayer MovieData={data} season={season} ep={episode} />
-        {/* <Tv />; */}
       </main>
 
       {/* <SeriesAndEpisodes /> */}

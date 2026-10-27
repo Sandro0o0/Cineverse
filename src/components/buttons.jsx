@@ -59,7 +59,7 @@ export function GenreBtn({ genreId = [] }) {
   );
 }
 
-async function getGenre() {
+export async function getGenre() {
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/genre/movie/list?api_key=${TMDB_API_KEY}&language=en-US`,
