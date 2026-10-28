@@ -14,74 +14,75 @@ import { SimilarMovies } from "../../scripts/api/Movie";
 
 export function Content({ MovieData }) {
   const data = MovieData;
-  console.log(data);
 
   return (
     <>
       <div className="movie-content-container">
         <div className="image-container">
-          <img src={TMDB_IMAGE_BASE_URL + data.poster_path} alt="" />
+          <img src={TMDB_IMAGE_BASE_URL + data?.poster_path} alt="" />
         </div>
 
         <div className="main-movie-info">
           {" "}
           <div className="content">
-            <h1 className="title">{data.title}</h1>
+            <h1 className="title">{data?.title}</h1>
             <div className="essencial">
               <button className="trailer">
                 <i class="fa-solid fa-play"></i>
                 Trailer
               </button>
-              <button className="imdb-btn">IMDB: {data.vote_average}</button>
+              <button className="imdb-btn">IMDB: {data?.vote_average}</button>
               <HD />
             </div>
             <div className="movie-genres">
               <label htmlFor="genres">
-                {data.genres.map((ele) => ele.name).join(", ")}
+                {data?.genres.map((ele) => ele.name).join(", ")}
               </label>
             </div>
 
-            <div className="description">{data.overview}</div>
+            <div className="description">{data?.overview}</div>
           </div>
           <div className="movie-info">
             <div className="info-elements">
               <p name="relese">Relese: </p>
-              <label htmlFor="relese">{data.release_date}</label>
+              <label htmlFor="relese">{data?.release_date}</label>
             </div>
             <div className="info-elements">
               <p>Language: </p>
               <label htmlFor="">
                 {" "}
-                {data.spoken_languages.map((lang) => lang.name).join(", ")}
+                {data?.spoken_languages.map((lang) => lang.name).join(", ")}
               </label>
             </div>
             <div className="info-elements">
               <p name="rating">rating: </p>
               <label htmlFor="rating">
-                <span className="vote-avg">{data.vote_average.toFixed(1)}</span>
-                <span className="vote-count">({data.vote_count})</span>
+                <span className="vote-avg">
+                  {data?.vote_average.toFixed(1)}
+                </span>
+                <span className="vote-count">({data?.vote_count})</span>
               </label>
             </div>
             <div className="info-elements">
               <p name="country">country: </p>
-              <label htmlFor="country"> {data.origin_country[0]}</label>
+              <label htmlFor="country"> {data?.origin_country[0]}</label>
             </div>
 
             <div className="info-elements">
               <p name="runtime">runtime: </p>
-              <label htmlFor="runtime">{data.runtime} min</label>
+              <label htmlFor="runtime">{data?.runtime} min</label>
             </div>
             <div className="info-elements">
               <p name="revenue">revenue: </p>
-              <label htmlFor="revenue">{priceSpelling(data.revenue)}</label>
+              <label htmlFor="revenue">{priceSpelling(data?.revenue)}</label>
             </div>
             <div className="info-elements">
               <p name="budget">budget: </p>
-              <label htmlFor="budget">{priceSpelling(data.budget)}</label>
+              <label htmlFor="budget">{priceSpelling(data?.budget)}</label>
             </div>
             <div className="info-elements">
               <p name="production_companies">production_companies: </p>
-              {data.production_companies.map((ele) => ele.name).join(", ")}
+              {data?.production_companies.map((ele) => ele.name).join(", ")}
               <label htmlFor="production_companies">{}</label>
             </div>
           </div>

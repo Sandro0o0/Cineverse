@@ -132,19 +132,19 @@ export function MoviePage() {
 }
 
 export function TvPage() {
-  const url = new URLSearchParams(window.location.search);
-  const [data, setData] = useState(null);
+  // const url = new URLSearchParams(window.location.search);
+  // const [data, setData] = useState(null);
 
-  const seriesId = url.get("id");
+  // const seriesId = url.get("id");
 
-  //
-  // console.log(seriesId);
-  const loadData = async () => {
-    const dt = await PullSeries(seriesId);
-    setData(dt);
-    return data;
-  };
-  loadData();
+  // //
+  // // console.log(seriesId);
+  // const loadData = async () => {
+  //   const dt = await PullSeries(seriesId);
+  //   setData(dt);
+  //   return data;
+  // };
+  // loadData();
   return (
     <>
       <LinearBackground />

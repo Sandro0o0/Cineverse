@@ -6,6 +6,9 @@ import { data, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { movieData, TMDB_IMAGE_BASE_URL } from "@/scripts/api";
+
+import { PlayerServerContainer } from "../MoviePage/player";
+import { Content } from "../MoviePage/MoviePageContent";
 import TechText from "../TechText";
 import "../../style/MoviePage/player.css";
 
@@ -110,8 +113,6 @@ function SeriesAndEpisodes({ data = "", setPlayerLoad }) {
                     navigate(
                       `/tv/?id=${data?.id}&season=${season}&ep=${episodeNumber}`,
                     );
-
-                    setPlayerLoad(true);
                   }}
                   className={`fade-in-opacity py-1 px-3 rounded-1 bg-[#333] text-xl text-[#ccc] cursor-pointer transition-all duration-75! hover:text-[#fff] hover:scale-[1.1] ${
                     isActive ? "scale-[1.1] text-white bg-red-700" : "scale-100"
@@ -208,6 +209,12 @@ function TvPlayer({ MovieData, season = "1", ep = "1" }) {
   useEffect(() => {
     serverList.forEach((e, index) => {
       e.style.color = getGradientColor(index, serverList.length);
+
+      function getGradientColor(index, total) {
+        const hue = (index / total) * 360; // spread across full color wheel
+        return `hsl(${hue}, 70%, 50%)`;
+      }
+      // GradientColor(index, serverList.length);
     });
     if (!currentServer.includes("vidlink")) return;
 
@@ -305,11 +312,11 @@ function TvPlayer({ MovieData, season = "1", ep = "1" }) {
           <p className="server-recommend-message">
             if the player doesn't work try another
           </p>
-          {/* <PlayerServerContainer
+          <PlayerServerContainer
             data={MovieData}
             server={setCurrentServer}
             ServerNames={MovieKeys}
-          /> */}
+          />
         </div>
       </>
     );
@@ -318,23 +325,25 @@ function TvPlayer({ MovieData, season = "1", ep = "1" }) {
   return (
     <>
       <div className="player-container rounded-b-[none !important] fade-in-opacity">
-        <iframe
-          src={currentServer}
-          frameBorder="0"
-          // lazyLoading="true"
-          allowFullScreen
-          ref={iframeRef}
-        ></iframe>
+        <div className="frame-wrapper ">
+          <iframe
+            src={currentServer}
+            frameBorder="0"
+            // lazyLoading="true"
+            allowFullScreen
+            ref={iframeRef}
+          ></iframe>
+        </div>
         <SeriesAndEpisodes data={MovieData} />
 
         <p className="server-recommend-message">
           if the player doesn't work try another
         </p>
-        {/* <PlayerServerContainer
+        <PlayerServerContainer
           data={MovieData}
           server={setCurrentServer}
           ServerNames={MovieKeys}
-        /> */}
+        />
       </div>
     </>
   );
@@ -342,7 +351,7 @@ function TvPlayer({ MovieData, season = "1", ep = "1" }) {
 
 export function Tv() {
   const url = new URLSearchParams(window.location.search);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState();
 
   // Loads Data from url
   const seriesId = url.get("id"); // GET id from url
@@ -353,6 +362,7 @@ export function Tv() {
   const loadData = async () => {
     const dt = await PullSeries(seriesId);
     setData(dt);
+    // console.log(dt);
     return data;
   };
   loadData();
@@ -369,9 +379,15 @@ export function Tv() {
         />
         <div className="player-img-cover"></div>
         <TvPlayer MovieData={data} season={season} ep={episode} />
+        <Content MovieData={data} />
       </main>
 
       {/* <SeriesAndEpisodes /> */}
     </>
   );
+}
+
+function getGradientColor(index, total) {
+  const hue = (index / total) * 360; // spread across full color wheel
+  return `hsl(${hue}, 70%, 50%)`;
 }
