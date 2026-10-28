@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./style/index.css";
 import "./style/Cards/cards.css";
-import "./style/animations.css";
+import "./style/Animations.css";
 import "./style/extra/extra.css";
 import "./style/banner/banner.css";
 import "./style/card-circle/card-circle.css";
