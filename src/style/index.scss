@@ -42,6 +42,7 @@ body::-webkit-scrollbar-track {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  // max-width: 100%;
   width: 100%;
   background-color: rgba($color: $Secondery-cl, $alpha: 0.8) !important;
   backdrop-filter: blur(5px);
@@ -51,6 +52,7 @@ body::-webkit-scrollbar-track {
 
   .navbar {
     background: transparent;
+    // width: 100%;
     a {
       text-decoration: none;
     }

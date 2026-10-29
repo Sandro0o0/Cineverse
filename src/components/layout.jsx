@@ -11,28 +11,28 @@ console.log(randomMovies);
 
 export function Header({ currentPage = "home" }) {
   return (
-    <div className="header-container">
+    <div className="header-container ">
       <nav className="navbar">
         <a href="/">
-          <h1 className="logo-text">CINEVERSE</h1>
+          <h1 className="logo-text my-0! border-r-2">CINEVERSE</h1>
         </a>
-        <ul className="list-group list-group-horizontal">
+        <ul className="list-group list-group-horizontal max-[940px]:justify-center! max-[940px]:gap-none! ">
           <a href="/">
-            <li className="hover-text-effect">
+            <li className="hover-text-effect max-[940px]:p-3!">
               Home
               <div className="underline"></div>
             </li>
           </a>
 
-          <a href="/movie">
-            <li className="hover-text-effect">
-              Movies
+          <a href="/search">
+            <li className="hover-text-effect max-[940px]:p-3!">
+              Search
               <div className="underline"></div>
             </li>
           </a>
 
           <a href="">
-            <li className="hover-text-effect">
+            <li className="hover-text-effect max-[940px]:p-3!">
               Series
               <div className="underline"></div>
             </li>
@@ -82,7 +82,7 @@ export function Header({ currentPage = "home" }) {
           </li>
 
           <a href="">
-            <li className="hover-text-effect">
+            <li className="hover-text-effect max-[940px]:p-3!">
               Watchlist
               <div className="underline"></div>
             </li>
@@ -172,7 +172,10 @@ export function Hero() {
   return (
     <>
       <div className="hero">
-        <div className="arrow arrow-left" onClick={() => handleSlide("left")}>
+        <div
+          className="absolute left-0 top-0 text-center! px-5! flex justify-center items-center w-20! h-full z-2 text-white transition-[.5s] active:text-xl!  hover:[text-shadow:0_0_10px_#fff] text-2xl! cursor-pointer shadow-[inset_35px_0_35px_-10px_#3c3c3c] active:shadow-[inset_35px_0_35px_-10px_#5c5c5c]"
+          onClick={() => handleSlide("left")}
+        >
           <i
             onClick={(e) => e.stopPropagation()}
             className="fa-solid fa-left-long"
@@ -186,7 +189,7 @@ export function Hero() {
               src={`${TMDB_IMAGE_BASE_URL}${randomMovies[count]?.backdrop_path}`}
               alt="Not Found!"
             />
-            <div className="item-content">
+            <div className="item-content px-[30px]! gap-0!">
               <div className="content fade-in-vertical">
                 <h1>{randomMovies[count]?.title}</h1>
 
@@ -224,9 +227,12 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="arrow arrow-right" onClick={() => handleSlide("right")}>
+        <div
+          className="absolute right-0 top-0 text-center! px-5! flex justify-center items-center w-20! h-full z-2 text-white transition-[.5s] active:text-xl!  hover:[text-shadow:0_0_10px_#fff] text-2xl! cursor-pointer shadow-[inset_-35px_0_35px_-10px_#3c3c3c] active:shadow-[inset_-35px_0_35px_-10px_#5c5c5c]"
+          onClick={() => handleSlide("right")}
+        >
           <i
-            onClick={(e) => e.stopPropagation()}
+            // onClick={(e) => e.stopPropagation()}
             className="fa-solid fa-right-long"
           ></i>
         </div>

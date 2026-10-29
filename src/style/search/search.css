@@ -3,8 +3,8 @@
 }
 
 .search-grid {
-  display: grid;
+  display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  grid-template-columns: repeat(6, auto);
+  grid-template-columns: repeat(2, auto);
 }/*# sourceMappingURL=search.css.map */

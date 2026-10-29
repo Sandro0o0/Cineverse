@@ -175,12 +175,13 @@ export function CanvasBackground() {
   return (
     <>
       <canvas
+        className="max-w-full"
         style={{
           position: "absolute",
         }}
         ref={canvaElement}
       ></canvas>
-      <div className="canvas-container">
+      <div className="canvas-container w-full">
         <div className="canvas-cover"></div>
       </div>
     </>

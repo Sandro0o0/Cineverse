@@ -83,19 +83,21 @@ function SeriesAndEpisodes({ data = "", setPlayerLoad }) {
   }, [data, season]);
 
   return (
-    <div className="w-full border-t h-30 flex items-center justify-between border-white/10 bg-[#131313]">
-      <div className="flex min-h-[76px] items-center w-full justify-between gap-4 px-4 sm:px-6">
-        <div className="flex flex-row items-center gap-2">
-          <div className="min-w-0 border-r-2 px-2">
-            <h3 className="text-sm font-semibold text-white sm:text-base">
-              Episodes
-            </h3>
-            <p className="mt-1 text-xs text-gray-500">
-              Choose a season to watch
-            </p>
+    <div className="w-full border-t border-white/10 bg-[#131313]">
+      <div className="flex w-full flex-col gap-3 px-3 py-3 sm:px-6 lg:min-h-[76px] lg:flex-row lg:items-center lg:justify-between lg:gap-4">
+        <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="flex shrink-0 items-center gap-2 sm:border-r-2 sm:px-2">
+            <div className="min-w-0">
+              <h3 className="text-sm font-semibold text-white sm:text-base">
+                Episodes
+              </h3>
+              <p className="mt-1 whitespace-nowrap text-xs text-gray-500">
+                Choose a season to watch
+              </p>
+            </div>
           </div>
 
-          <div className="episodes flex flex-row gap-3">
+          <div className="episodes flex max-w-full flex-row gap-3 overflow-x-auto py-2 pr-2 sm:py-1">
             {Array.from({ length: EpisodeCount }, (_, i) => {
               const episodeNumber = i + 1;
               const isActive = activeEpisode === episodeNumber;
@@ -103,8 +105,7 @@ function SeriesAndEpisodes({ data = "", setPlayerLoad }) {
               return (
                 <span
                   key={`${season}-${episodeNumber}`}
-                  value={episodeNumber}
-                  onClick={(e) => {
+                  onClick={() => {
                     setCurrentEpisode((prev) => ({
                       ...prev,
                       [season]: episodeNumber,
@@ -114,8 +115,8 @@ function SeriesAndEpisodes({ data = "", setPlayerLoad }) {
                       `/tv/?id=${data?.id}&season=${season}&ep=${episodeNumber}`,
                     );
                   }}
-                  className={`fade-in-opacity py-1 px-3 rounded-1 bg-[#333] text-xl text-[#ccc] cursor-pointer transition-all duration-75! hover:text-[#fff] hover:scale-[1.1] ${
-                    isActive ? "scale-[1.1] text-white bg-red-700" : "scale-100"
+                  className={`fade-in-opacity shrink-0 cursor-pointer rounded-sm bg-[#333] px-3 py-1 text-xl text-[#ccc] transition-all duration-75 hover:scale-110 hover:text-white ${
+                    isActive ? "scale-110 bg-red-700 text-white" : "scale-100"
                   }`}
                 >
                   {episodeNumber}
@@ -125,7 +126,7 @@ function SeriesAndEpisodes({ data = "", setPlayerLoad }) {
           </div>
         </div>
 
-        <div className="relative shrink-0">
+        <div className="relative w-full shrink-0 sm:w-36 lg:w-36">
           <select
             value={season}
             onChange={(e) => {
@@ -133,7 +134,7 @@ function SeriesAndEpisodes({ data = "", setPlayerLoad }) {
             }}
             name="season"
             aria-label="Select season"
-            className="h-11 w-36 cursor-pointer appearance-none rounded-md border border-white/10 bg-[#1c1c1c] px-3 pr-9 text-sm text-white outline-none transition-colors hover:border-white/30 focus:border-white/40"
+            className="h-11 w-full cursor-pointer appearance-none rounded-md border border-white/10 bg-[#1c1c1c] px-3 pr-9 text-sm text-white outline-none transition-colors hover:border-white/30 focus:border-white/40"
           >
             {data?.seasons
               ?.filter((s) => s.season_number > 0)
@@ -323,29 +324,38 @@ function TvPlayer({ MovieData, season = "1", ep = "1" }) {
   }
 
   return (
-    <>
-      <div className="player-container rounded-b-[none !important] fade-in-opacity">
-        <div className="frame-wrapper ">
-          <iframe
-            src={currentServer}
-            frameBorder="0"
-            // lazyLoading="true"
-            allowFullScreen
-            ref={iframeRef}
-          ></iframe>
-        </div>
-        <SeriesAndEpisodes data={MovieData} />
+    <div className="player-container fade-in-opacity w-full min-w-0 overflow-hidden rounded-b-none">
+      {/* Responsive video player */}
+      <div className="frame-wrapper relative aspect-video w-full overflow-hidden bg-black">
+        <iframe
+          src={currentServer}
+          title="Movie or TV episode player"
+          frameBorder="0"
+          allowFullScreen
+          ref={iframeRef}
+          className="absolute inset-0 h-full w-full border-0"
+        />
+      </div>
 
-        <p className="server-recommend-message">
-          if the player doesn't work try another
-        </p>
+      {/* Episodes and seasons */}
+      <div className="w-full min-w-0">
+        <SeriesAndEpisodes data={MovieData} />
+      </div>
+
+      {/* Server recommendation */}
+      <p className="server-recommend-message px-3 py-3 text-center text-xs leading-relaxed text-gray-400 sm:px-4 sm:text-sm">
+        If the player doesn't work, try another server.
+      </p>
+
+      {/* Server selection */}
+      <div className="w-full min-w-0 px-2 pb-3 sm:px-4">
         <PlayerServerContainer
           data={MovieData}
           server={setCurrentServer}
           ServerNames={MovieKeys}
         />
       </div>
-    </>
+    </div>
   );
 }
 

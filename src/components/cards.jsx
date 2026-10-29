@@ -13,6 +13,7 @@ export const CreateCard = forwardRef(function CreateCard(
   const card = useRef(null);
   const movieData = movie;
   const [visible, setVisible] = useState(false);
+  console.log(movie);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,18 +56,13 @@ export const CreateCard = forwardRef(function CreateCard(
       movie: `movies/?id=${id}`,
       tv: `tv/?id=${id}`,
     };
-    // window.location.href = `/movies/?id=${id}`;
     window.location.href = types[type];
   }
 
   return (
-    <div
-      // onScroll={(e) => scrollAppear(e)}
-      ref={card}
-      className={`card-container ${classname}`}
-    >
+    <div ref={card} className={`card-container ${classname}`}>
       <img
-        src={TMDB_IMAGE_BASE_URL + movieData.poster_path}
+        src={TMDB_IMAGE_BASE_URL + movieData?.poster_path}
         alt="Image NOT FOUND!"
       />
       <div className="essencials">
@@ -84,8 +80,8 @@ export const CreateCard = forwardRef(function CreateCard(
       >
         <i className="fa-solid fa-circle-play play-icon"></i>
       </a>
-      <div className="content">
-        <div className="title">{movieData.title}</div>
+      <div className="content fade-in-opacity">
+        <div className="title">{movieData?.title || movieData?.name}</div>
       </div>
     </div>
   );

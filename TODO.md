@@ -1,5 +1,5 @@
--tv player [x]
---add servers [x]
+-tv player [v]
+--add servers [v]
 --add similar Tv/movies (one each row) validate if data not found [x]
 
 -search
