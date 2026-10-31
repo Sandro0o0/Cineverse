@@ -1,16 +1,18 @@
 import { Header } from "../layout";
-import { PullSeries } from "@/scripts/api/Movie";
+import { PullSeries, PullEpisodes } from "@/scripts/api/Movie";
 
 import "../../style/tvpage/tv-page.css";
 import { data, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
-import { movieData, TMDB_IMAGE_BASE_URL } from "@/scripts/api";
+import { movieData, TMDB_API_KEY, TMDB_IMAGE_BASE_URL } from "@/scripts/api";
+import useEmblaCarousel from "embla-carousel-react";
 
 import { PlayerServerContainer } from "../MoviePage/player";
 import { Content } from "../MoviePage/MoviePageContent";
 import TechText from "../TechText";
 import "../../style/MoviePage/player.css";
+import { div } from "framer-motion/client";
 
 const MoviePlayers = {
   VidLink: (id, season = 1, ep = 1) =>
@@ -167,7 +169,6 @@ function Navigation() {
     </>
   );
 }
-
 function TvPlayer({ MovieData, season = "1", ep = "1" }) {
   const [currentServer, setCurrentServer] = useState(
     MoviePlayers.VidLink(MovieData?.id, season, ep),
@@ -359,6 +360,94 @@ function TvPlayer({ MovieData, season = "1", ep = "1" }) {
   );
 }
 
+function EpCard({ data = {} }) {
+  // console.log(data);
+  return (
+    <div className="w-[99.5%] h-[99%] mx-auto flex flex-col sm:flex-row items-start gap-4 p-3 rounded-5  bg-[#151515]">
+      {/* Image */}
+      <div className="w-full h-full sm:w-56 shrink-0 aspect-video overflow-hidden rounded-md">
+        <img
+          src={TMDB_IMAGE_BASE_URL + data?.still_path}
+          alt={data?.name || "Episode still"}
+          loading="lazy"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Details */}
+      <div className="flex flex-col gap-2 min-w-0">
+        <div>
+          <p className="text-[10px] uppercase tracking-wider text-cyan-500">
+            Episode {data?.episode_number}
+          </p>
+
+          <h2 className="text-sm font-medium text-white mt-1">{data?.name}</h2>
+
+          <p className="text-xs text-neutral-500 mt-1">{data?.air_date}</p>
+        </div>
+
+        <div className="flex items-center gap-3 text-xs text-neutral-400">
+          <span className="text-yellow-500">
+            ★ {data?.vote_average?.toFixed(1) || "N/A"}
+          </span>
+
+          <span>{data?.vote_count ?? 0} votes</span>
+
+          {data?.runtime && <span>{data.runtime} min</span>}
+        </div>
+
+        <p className="text-xs leading-relaxed text-neutral-400 line-clamp-3">
+          {data?.overview || "No description available."}
+        </p>
+      </div>
+    </div>
+  );
+}
+function EpisodeCards() {
+  const movieId = new URLSearchParams(window.location.search).get("id");
+  const seasonNumber = new URLSearchParams(window.location.search).get(
+    "season",
+  );
+  const episodeNumber = Number(
+    new URLSearchParams(window.location.search).get("ep"),
+  );
+  const [data, setData] = useState({});
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    dragFree: true,
+    align: "start",
+    containScroll: "trimSnaps",
+  });
+
+  useEffect(() => {
+    const fetchEpisodes = async () => {
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/tv/${movieId}/season/${seasonNumber}?api_key=${TMDB_API_KEY}`,
+        );
+        const episodes = await res.json();
+
+        setData(episodes);
+        return;
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchEpisodes();
+  }, [movieId, seasonNumber]);
+
+  return (
+    <div className="my-5">
+      <div className="embla mx-auto overflow-hidden max-w-[90vw]">
+        <div className=" flex flex-row gap-3 px-5 ">
+          <div className="w-full bg-cyan-400/80! rounded-1 flex items-center">
+            <EpCard data={data?.episodes?.[episodeNumber - 1]} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Tv() {
   const url = new URLSearchParams(window.location.search);
   const [data, setData] = useState();
@@ -372,10 +461,13 @@ export function Tv() {
   const loadData = async () => {
     const dt = await PullSeries(seriesId);
     setData(dt);
-    // console.log(dt);
     return data;
   };
   loadData();
+
+  useEffect(() => {
+    document.title = `Movie | ${data?.name}`;
+  }, []);
 
   return (
     <>
@@ -388,9 +480,12 @@ export function Tv() {
           alt=""
         />
         <div className="player-img-cover"></div>
-        <TvPlayer MovieData={data} season={season} ep={episode} />
-        <Content MovieData={data} />
+        <div className="p-2">
+          <TvPlayer MovieData={data} season={season} ep={episode} />
+        </div>
       </main>
+      <EpisodeCards />
+      <Content MovieData={data} />
 
       {/* <SeriesAndEpisodes /> */}
     </>

@@ -179,15 +179,18 @@ export function Player({ MovieData }) {
 
   return (
     <>
-      <div className="player-container fade-in-opacity">
-        <iframe
-          src={currentServer}
-          frameBorder="0"
-          lazyLoading="true"
-          allowFullScreen
-          ref={iframeRef}
-          onLoad={handleLoad}
-        ></iframe>
+      <div className="player-container aspect-video! fade-in-opacity">
+        <div className="p-4!  ">
+          <iframe
+            className=""
+            src={currentServer}
+            frameBorder="0"
+            lazyLoading="true"
+            allowFullScreen
+            ref={iframeRef}
+            onLoad={handleLoad}
+          ></iframe>
+        </div>
         <p className="server-recommend-message">
           if the player doesn't work try another
         </p>
@@ -204,12 +207,14 @@ export function Player({ MovieData }) {
 export function PlayerServerContainer({ ServerNames, server, data }) {
   return (
     <>
-      <div className="player-server-container fade-in">
-        {ServerNames.map((name, index) => {
-          return (
-            <Server serv={server} dt={data} key={index} serverName={name} />
-          );
-        })}
+      <div className="p-3">
+        <div className="player-server-container  fade-in">
+          {ServerNames.map((name, index) => {
+            return (
+              <Server serv={server} dt={data} key={index} serverName={name} />
+            );
+          })}
+        </div>
       </div>
     </>
   );

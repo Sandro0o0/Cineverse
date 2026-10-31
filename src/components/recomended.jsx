@@ -8,6 +8,10 @@ export function RecommendedMovies({ request = "week", title, index }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState();
   const [currentType, setCurrentType] = useState("Movies");
+  const typeSelector = {
+    Movies: "0px",
+    TV_Series: "100%",
+  };
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
@@ -34,13 +38,9 @@ export function RecommendedMovies({ request = "week", title, index }) {
     } finally {
       setLoading(false);
     }
-  }, [loading]);
+  }, [loading, currentType]);
 
   const handleType = (e) => {
-    const typeSelector = {
-      Movies: "0px",
-      TV_Series: "100%",
-    };
     const recommendedContainer = document.querySelector(
       `.${"recommended" + index}`,
     );
@@ -115,7 +115,10 @@ export function RecommendedMovies({ request = "week", title, index }) {
             ) : (
               data?.results?.map((movie) => (
                 <div className="embla__slide" key={movie.id}>
-                  <CreateCard movie={movie} />
+                  <CreateCard
+                    type={currentType === "TV_Series" ? "tv" : "movie"}
+                    movie={movie}
+                  />
                 </div>
               ))
             )}

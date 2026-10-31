@@ -173,11 +173,11 @@ export function Hero() {
     <>
       <div className="hero">
         <div
-          className="absolute left-0 top-0 text-center! px-5! flex justify-center items-center w-20! h-full z-2 text-white transition-[.5s] active:text-xl!  hover:[text-shadow:0_0_10px_#fff] text-2xl! cursor-pointer shadow-[inset_35px_0_35px_-10px_#3c3c3c] active:shadow-[inset_35px_0_35px_-10px_#5c5c5c]"
+          className=" absolute left-0 top-0 text-center! px-5! flex justify-center items-center w-20! h-full z-2 text-white transition-[.5s] active:text-xl!  hover:[text-shadow:0_0_10px_#fff] text-2xl! cursor-pointer shadow-[inset_35px_0_35px_-10px_#3c3c3c] active:shadow-[inset_35px_0_35px_-10px_#5c5c5c]"
           onClick={() => handleSlide("left")}
         >
           <i
-            onClick={(e) => e.stopPropagation()}
+            // onClick={(e) => e.stopPropagation()}
             className="fa-solid fa-left-long"
           ></i>
         </div>
@@ -189,11 +189,15 @@ export function Hero() {
               src={`${TMDB_IMAGE_BASE_URL}${randomMovies[count]?.backdrop_path}`}
               alt="Not Found!"
             />
-            <div className="item-content px-[30px]! gap-0!">
-              <div className="content fade-in-vertical">
-                <h1>{randomMovies[count]?.title}</h1>
+            <div className="item-content px-[30px]! gap-0! max-lg:flex-col! ">
+              <div className="content fade-in-vertical max-lg:justify-center!">
+                <h1 className="max-lg:text-[35px]! max-lg:text-center!">
+                  {randomMovies[count]?.title}
+                </h1>
 
-                <p>{randomMovies[count]?.overview.slice(0, 300)}..</p>
+                <p className="max-[900px]:text-sm!">
+                  {randomMovies[count]?.overview.slice(0, 300)}..
+                </p>
                 <div className="embla" ref={emblaRef}>
                   <div className="genres embla__container">
                     <GenreBtn

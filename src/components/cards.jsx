@@ -54,7 +54,7 @@ export const CreateCard = forwardRef(function CreateCard(
   function Relocate(id) {
     const types = {
       movie: `movies/?id=${id}`,
-      tv: `tv/?id=${id}`,
+      tv: `tv/?id=${id}&season=1&ep=1`,
     };
     window.location.href = types[type];
   }

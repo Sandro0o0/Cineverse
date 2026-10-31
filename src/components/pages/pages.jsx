@@ -77,7 +77,7 @@ export function MoviePage() {
   const url = new URLSearchParams(window.location.search);
   const MovieId = url.get("id");
   useEffect(() => {
-    window.window.scrollTo({
+    window.scrollTo({
       top: 100,
       behavior: "smooth",
     });
@@ -97,6 +97,10 @@ export function MoviePage() {
 
     FetchedMovieData(MovieId);
   }, [MovieId]);
+  // console.log(movieData);
+  useEffect(() => {
+    document.title = `Movie | ${movieData?.title}`;
+  }, []);
 
   if (loading)
     return (
@@ -132,19 +136,6 @@ export function MoviePage() {
 }
 
 export function TvPage() {
-  // const url = new URLSearchParams(window.location.search);
-  // const [data, setData] = useState(null);
-
-  // const seriesId = url.get("id");
-
-  // //
-  // // console.log(seriesId);
-  // const loadData = async () => {
-  //   const dt = await PullSeries(seriesId);
-  //   setData(dt);
-  //   return data;
-  // };
-  // loadData();
   return (
     <>
       <LinearBackground />

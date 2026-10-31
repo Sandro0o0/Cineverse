@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { TMDB_API_KEY } from "@/scripts/api";
 
 import "../../style/search/search.css";
+import { data, useNavigate } from "react-router-dom";
 
 // import { CreateCard } from "../cards";
 export function SearchDisplay({ data }) {
@@ -96,29 +97,44 @@ const variants = {
 export function Search() {
   const [data, setData] = useState([]);
   const keywords = useRef("");
+  const releseYear = useRef("");
   const form = useRef("");
-  const pg = 1;
+
+  const navigate = useNavigate("");
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     try {
       const value = keywords.current.value;
-      // console.log(value);
-      setData(value);
+      const relese = releseYear.current.value;
+      if (value === "") {
+        console.log(keywords.current.parentElement.classList);
+        keywords.current.parentElement.classList.add("border-red-400/60!");
+        console.log(keywords.current.parentElement.classList);
+      } else {
+        keywords.current.parentElement.classList.remove("border-red-400/60!");
+      }
+
+      const result = {
+        value: value,
+        relese: relese,
+      };
+      const url = new URLSearchParams(result);
+      navigate(`?${url.toString()}`);
+      setData(result);
       // console.log(data);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const updataSeassion = (e) => {
-    sessionStorage.setItem("search_value", e.target.value || "");
-  };
   useEffect(() => {
-    keywords.current.value = sessionStorage.getItem("search_value" || "");
-    // console.log(keywords.current.value);
+    const url = new URLSearchParams(window.location.search);
+    console.log(url.get("value"), url.get("relese"));
+    keywords.current.value = url.get("value") || "";
+    releseYear.current.value = url.get("relese") || "";
     handleSubmit("");
-  });
+  }, []);
 
   return (
     <>
@@ -126,26 +142,124 @@ export function Search() {
         <form
           onSubmit={(e) => handleSubmit(e)}
           ref={form}
-          className="search mx-auto flex w-full max-w-3xl items-center gap-2 rounded-xl border-1 border-cyan-400/20 bg-white/5 p-2 shadow-lg shadow-cyan-500/5 backdrop-blur-md focus-within:border-cyan-400/60"
+          className="flex flex-col gap-3 relative z-2"
         >
-          <input
-            onChange={(e) => updataSeassion(e)}
-            ref={keywords}
-            type="search"
-            placeholder="Search for a movie"
-            className="w-full bg-transparent text-shadow-lg tracking-[.1rem] px-3 py-2 text-white placeholder-white/30 outline-none"
-          />
-          <button
-            type="submit"
-            className="rounded-lg rounded-2  bg-[#0f9070] px-5 py-2 font-medium text-slate-950 text-white text-shadow-lg transition "
-          >
-            Search
-          </button>
+          <div className="w-full rounded-xl  bg-[#071419]/95 p-3 shadow-[0_0_20px_rgba(34,211,238,0.08)] backdrop-blur-md sm:p-4">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <h3 className="font-sans! text-base font-semibold text-cyan-300/90!">
+                  Refine results
+                </h3>
+                <p className="mt-1 text-xs text-cyan-100/50">
+                  Customize your movie discovery
+                </p>
+              </div>
+
+              <button
+                onClick={() => {
+                  navigate("/search");
+                  window.location.reload();
+                }}
+                type="button"
+                className="rounded-lg px-3 py-2 text-sm text-cyan-100/80! transition-[0.5s] hover:bg-cyan-400/10 hover:text-cyan-200 active:scale-[0.9]"
+              >
+                Clear filters
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <label className="flex min-w-0 flex-col gap-2">
+                <span className="text-xs font-medium text-cyan-100/70">
+                  Release year
+                </span>
+                <input
+                  ref={releseYear}
+                  type="number"
+                  placeholder="Any year"
+                  min="1874"
+                  // defaultValue={1874}
+                  max={new Date().getFullYear() + 10}
+                  className="h-11 w-full text-shadow-lg tracking-[.1rem] px-3 py-2 text-white placeholder-white/30 outline-none border-b-1 transition-[.5s] active:border-b-cyan-400/20"
+                />
+              </label>
+
+              <label className="flex min-w-0 flex-col gap-2">
+                <span className="text-xs font-medium text-cyan-100/70">
+                  Minimum rating
+                </span>
+                <select
+                  defaultValue=""
+                  className="relative  h-11 w-full text-shadow-lg tracking-[.1rem] px-3 py-2 text-white placeholder-white/30 outline-none border-b-1 transition-[.5s] active:border-b-cyan-400/20"
+                >
+                  <option value="" className="bg-[#071419]/95 text-[#ccc]!">
+                    Any rating
+                  </option>
+                  <option value="5" className="bg-[#071419]/95 text-[#ccc]!">
+                    5+ / 10
+                  </option>
+                  <option value="6" className="bg-[#071419]/95 text-[#ccc]!">
+                    6+ / 10
+                  </option>
+                  <option className="bg-[#071419]/95 text-[#ccc]!" value="7">
+                    7+ / 10
+                  </option>
+                  <option className="bg-[#071419]/95 text-[#ccc]!" value="8">
+                    8+ / 10
+                  </option>
+                  <option className="bg-[#071419]/95 text-[#ccc]!" value="9">
+                    9+ / 10
+                  </option>
+                </select>
+              </label>
+
+              <label className="flex min-w-0 flex-col gap-2">
+                <span className="text-xs font-medium text-cyan-100/70">
+                  Sort by
+                </span>
+                <select
+                  defaultValue="popularity.desc"
+                  className="relative  h-11 w-full text-shadow-lg tracking-[.1rem] px-3 py-2 text-white placeholder-white/30 outline-none border-b-1 transition-[.5s] active:border-b-cyan-400/20"
+                >
+                  <option value="popularity.desc">Most popular</option>
+                  <option value="vote_average.desc">Highest rated</option>
+                  <option value="primary_release_date.desc">
+                    Newest releases
+                  </option>
+                  <option value="revenue.desc">Highest revenue</option>
+                </select>
+              </label>
+            </div>
+
+            <div className="mt-4 flex items-center justify-between border-t border-cyan-400/15 pt-3 gap-3">
+              <div
+                className={`search mx-auto w-full flex flex-row w-full  max-w-full items-center gap-2 rounded-xl border-1 border-cyan-400/20 bg-white/5 p-2 shadow-lg shadow-cyan-500/5 backdrop-blur-md focus-within:border-cyan-400/60  `}
+              >
+                <input
+                  onChange={(e) => {
+                    // updataSeassion(e);
+                    handleSubmit(e);
+                    // checkValue();
+                  }}
+                  ref={keywords}
+                  type="search"
+                  placeholder="Search for a movie"
+                  className={`w-full bg-transparent max-h-7 text-shadow-lg tracking-[.1rem] px-3 py-2 text-white placeholder-white/30 outline-none `}
+                />
+              </div>
+
+              <button
+                type="submit"
+                className=" rounded-lg border border-cyan-300/50 bg-cyan-400 px-3 py-2 text-sm min-w-35 font-bold text-[#061318] shadow-[0_0_15px_rgba(34,211,238,0.2)] transition hover:bg-cyan-300 hover:shadow-[0_0_22px_rgba(34,211,238,0.35)] active:scale-[0.98] max-lg:px-2! max-lg:text-sm!"
+              >
+                Apply filters
+              </button>
+            </div>
+          </div>
         </form>
       </div>
       <div className="flex flex-row gap-3 p-2 ">
-        <SearchMovies value={data} />
-        <SearchMovies value={data} type="tv" />
+        <SearchMovies />
+        <SearchMovies type="tv" />
       </div>
     </>
   );
@@ -158,19 +272,24 @@ function SearchMovies({ value = "", type = "movie", pg = 1 }) {
   const [loading, setLoading] = useState(true);
   const [dt, setData] = useState("");
   const [page, setPage] = useState(pg);
-  console.log(value);
+  const params = new URLSearchParams(window.location.search);
 
+  const tvXmovieYear = {
+    movie: `primary_release_year=${params.get("relese")}`,
+    tv: `first_air_date_year=${params.get("relese")}`,
+  };
+
+  // console.log(tvXmovieYear[type]);
   const loadData = async () => {
     try {
       value = sessionStorage.getItem("search_value");
       const response = await fetch(
-        `https://api.themoviedb.org/3/search/${type}?api_key=${TMDB_API_KEY}&query=${value || ""}&page=${page}`,
+        `https://api.themoviedb.org/3/search/${type}?api_key=${TMDB_API_KEY}&query=${params.get("value") || ""}&${tvXmovieYear[type]}&page=${page}`,
         {
           method: "GET",
         },
       );
       const data = await response.json();
-      console.log(data);
       setData(data);
       setLoading(false);
     } catch (err) {
@@ -180,7 +299,7 @@ function SearchMovies({ value = "", type = "movie", pg = 1 }) {
 
   useEffect(() => {
     loadData();
-  }, [type, page, value]);
+  }, [type, page, value, params]);
 
   useEffect(() => {
     setPage(1);
@@ -206,16 +325,22 @@ function SearchMovies({ value = "", type = "movie", pg = 1 }) {
           <h1 className="text-start text-2xl! my-5 text-cyan-400/100! text-shadow-lg! rounded-xl border-2 font-mono border-cyan-400/20 mx-2 rounded-2 w-fit relative z-2  px-3">
             {type.toUpperCase()}
           </h1>
-          <h1 className=" text-white relative text-3xl!  border-2 font-mono border-cyan-400/20 z-2 min-h-100 flex justify-center  items-center">
-            No {type.slice(0, 1).toUpperCase() + type.slice(1, type.length)}{" "}
-            Found...
-          </h1>
+          {loading ? (
+            <h1 className="relative z-2 text-white">Loading...</h1>
+          ) : (
+            <h1 className=" text-white relative text-3xl!  border-2 font-mono border-cyan-400/20 z-2 min-h-100 flex justify-center  items-center">
+              No {type.slice(0, 1).toUpperCase() + type.slice(1, type.length)}{" "}
+              Found...
+            </h1>
+          )}
         </div>
       </>
     );
   }
   if (loading) {
-    return <h1 className="relative z-2 text-white">Loading...</h1>;
+    return (
+      <h1 className="relative z-2 text-white w-50 text-red-400!">Loading...</h1>
+    );
   }
 
   return (
